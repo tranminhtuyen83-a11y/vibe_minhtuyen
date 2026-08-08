@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Khóa học Ứng Dụng AI Đột Phá - Làm chủ Claude AI, LLM, Prompt Engineering & Tự động hóa công việc. Học phí 4 triệu, 6 buổi học cuối tuần.">
+    <meta name="keywords" content="Khóa học AI, Claude AI, LLM, Prompt Engineering, Ứng dụng AI, Nexus IT Academy">
+    <title>Khóa Học Ứng Dụng AI Đột Phá - Nexus IT Academy</title>
+
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0b0f19;
+            --bg-card: #131927;
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --text-muted-custom: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Navbar */
+        .navbar-custom {
+            background: rgba(11, 15, 25, 0.9);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            color: #cbd5e1 !important;
+            font-weight: 500;
+            margin: 0 8px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #38bdf8 !important;
+        }
+
+        /* Banner Hero for Course Detail */
+        .course-banner {
+            position: relative;
+            padding: 130px 0 80px;
+            background: linear-gradient(180deg, rgba(11, 15, 25, 0.4) 0%, var(--bg-dark) 100%),
+                        url('assets/images/ai_banner.jpg') center/cover no-repeat;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .course-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 40%, rgba(139, 92, 246, 0.35) 0%, rgba(11, 15, 25, 0.85) 75%);
+            z-index: 1;
+        }
+
+        .course-banner .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .breadcrumb-custom {
+            background: rgba(255, 255, 255, 0.05);
+            display: inline-flex;
+            padding: 6px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.88rem;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb-custom a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+
+        .banner-title {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .banner-subtitle {
+            font-size: 1.15rem;
+            color: #cbd5e1;
+            max-width: 750px;
+            line-height: 1.7;
+        }
+
+        /* Buttons */
+        .btn-gradient {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: #fff;
+            font-weight: 700;
+            padding: 14px 32px;
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(124, 58, 237, 0.7);
+            color: #fff;
+        }
+
+        /* Course Main Content */
+        .main-content-section {
+            padding: 60px 0 90px;
+        }
+
+        .content-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 36px;
+            margin-bottom: 30px;
+        }
+
+        .section-heading {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-heading i {
+            color: #c084fc;
+        }
+
+        .text-body-custom {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 1.02rem;
+        }
+
+        /* Accordion Custom for Curriculum */
+        .accordion-custom .accordion-item {
+            background-color: rgba(11, 15, 25, 0.6);
+            border: 1px solid var(--border-color);
+            border-radius: 12px !important;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .accordion-custom .accordion-button {
+            background-color: rgba(255, 255, 255, 0.03);
+            color: #f8fafc;
+            font-weight: 600;
+            font-size: 1.05rem;
+            padding: 18px 24px;
+            box-shadow: none;
+        }
+
+        .accordion-custom .accordion-button:not(.collapsed) {
+            background: rgba(139, 92, 246, 0.15);
+            color: #c084fc;
+        }
+
+        .accordion-custom .accordion-button::after {
+            filter: invert(1);
+        }
+
+        .accordion-custom .accordion-body {
+            color: #94a3b8;
+            line-height: 1.7;
+            padding: 20px 24px;
+        }
+
+        /* Right Sidebar Widgets */
+        .sidebar-widget {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 100px;
+        }
+
+        .widget-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            color: #f8fafc;
+        }
+
+        .price-tag {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #38bdf8;
+            margin-bottom: 4px;
+        }
+
+        .price-original {
+            text-decoration: line-through;
+            color: #64748b;
+            font-size: 1rem;
+            margin-left: 8px;
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .info-list li {
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-muted-custom);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-value {
+            color: #f1f5f9;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* Social Widget Buttons */
+        .social-widget-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-widget-btn:hover {
+            transform: translateX(4px);
+            color: #fff;
+        }
+
+        .btn-facebook {
+            background: rgba(24, 119, 242, 0.15);
+            border-color: rgba(24, 119, 242, 0.4);
+            color: #60a5fa;
+        }
+        .btn-facebook:hover {
+            background: #1877f2;
+            color: #fff;
+        }
+
+        .btn-youtube {
+            background: rgba(255, 0, 0, 0.15);
+            border-color: rgba(255, 0, 0, 0.4);
+            color: #f87171;
+        }
+        .btn-youtube:hover {
+            background: #ff0000;
+            color: #fff;
+        }
+
+        .btn-tiktok {
+            background: rgba(254, 44, 85, 0.15);
+            border-color: rgba(254, 44, 85, 0.4);
+            color: #f472b6;
+        }
+        .btn-tiktok:hover {
+            background: #fe2c55;
+            color: #fff;
+        }
+
+        .btn-zalo {
+            background: rgba(0, 104, 255, 0.15);
+            border-color: rgba(0, 104, 255, 0.4);
+            color: #38bdf8;
+        }
+        .btn-zalo:hover {
+            background: #0068ff;
+            color: #fff;
+        }
+
+        /* Highlight Pill Badge */
+        .pill-badge {
+            background: rgba(192, 132, 252, 0.15);
+            color: #c084fc;
+            border: 1px solid rgba(192, 132, 252, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: #05080e;
+            padding: 60px 0 30px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-brand {
+            font-weight: 800;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            display: inline-block;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Form Modal */
+        .modal-content {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: #f8fafc;
+            border-radius: 20px;
+        }
+
+        .form-control, .form-select {
+            background-color: rgba(11, 15, 25, 0.8);
+            border: 1px solid var(--border-color);
+            color: #f8fafc;
+            border-radius: 10px;
+            padding: 12px 16px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(11, 15, 25, 0.95);
+            border-color: #8b5cf6;
+            color: #fff;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-custom">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <i class="bi bi-cpu-fill fs-3 text-info"></i>
+                NEXUS IT ACADEMY
+            </a>
+            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-2 text-white"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html#courses">Khóa học</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#why-us">Về chúng tôi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Liên hệ</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <button class="btn btn-gradient text-nowrap py-2 px-4" data-bs-toggle="modal" data-bs-target="#enrollModal">
+                            <i class="bi bi-rocket-takeoff-fill me-1"></i> Đăng Ký Ngay
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner Section với hình nền máy vi tính AI -->
+    <header class="course-banner">
+        <div class="container">
+            <div class="breadcrumb-custom">
+                <a href="index.html">Trang chủ</a>
+                <span class="mx-2 text-secondary">/</span>
+                <a href="index.html#courses">Khóa học</a>
+                <span class="mx-2 text-secondary">/</span>
+                <span class="text-white">Ứng Dụng AI Đột Phá</span>
+            </div>
+
+            <h1 class="banner-title">Ứng Dụng AI Đột Phá</h1>
+            <p class="banner-subtitle">
+                Làm chủ siêu trí tuệ nhân tạo Claude AI, các mô hình ngôn ngữ lớn (LLM) & Kỹ thuật Prompt Engineering để tối ưu hóa 300% hiệu suất làm việc thực tế.
+            </p>
+
+            <div class="d-flex flex-wrap align-items-center gap-4 mt-4">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-star-fill text-warning fs-5"></i>
+                    <span class="fw-bold">4.9 / 5.0</span>
+                    <span class="text-secondary">(128 đánh giá)</span>
+                </div>
+                <div class="d-flex align-items-center gap-2 text-secondary">
+                    <i class="bi bi-people-fill text-info fs-5"></i>
+                    <span>450+ Học viên đã tham gia</span>
+                </div>
+                <div>
+                    <span class="pill-badge"><i class="bi bi-lightning-fill me-1"></i> Khai giảng tuần này</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="main-content-section">
+        <div class="container">
+            <div class="row g-4">
+                
+                <!-- Cột Trái: Nội Dung Giới Thiệu Khóa Học AI -->
+                <div class="col-lg-8">
+                    
+                    <!-- Tổng quan khóa học -->
+                    <div class="content-card">
+                        <h2 class="section-heading">
+                            <i class="bi bi-robot"></i> Giới Thiệu Khóa Học AI
+                        </h2>
+                        <div class="text-body-custom">
+                            <p>
+                                Cuộc cách mạng Trí Tuệ Nhân Tạo (AI) đang thay đổi hoàn toàn cách chúng ta làm việc, sáng tạo và quản lý. Khóa học <strong>"Ứng Dụng AI Đột Phá"</strong> tại Nexus IT Academy được thiết kế đặc biệt giúp bạn đi từ một người sử dụng AI thông thường trở thành người làm chủ các công cụ AI hàng đầu thế giới hiện nay như <strong>Claude AI (Anthropic), ChatGPT (OpenAI), Midjourney, Stable Diffusion</strong> và các mô hình ngôn ngữ lớn (LLM).
+                            </p>
+                            <p>
+                                Bạn sẽ không chỉ học cách đặt câu hỏi cơ bản, mà sẽ làm chủ <strong>Kỹ thuật Kỹ sư Gợi ý (Prompt Engineering)</strong>, quy trình tự động hóa báo cáo, viết code, phân tích dữ liệu và thiết lập các trợ lý AI chuyên biệt cho công việc cá nhân cũng như doanh nghiệp.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Điểm nổi bật môn học -->
+                    <div class="content-card">
+                        <h3 class="section-heading">
+                            <i class="bi bi-stars"></i> Giá Trị Bạn Nhận Được
+                        </h3>
+                        <div class="row g-3 text-body-custom">
+                            <div class="col-md-6">
+                                <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+                                    <h6 class="fw-bold text-info mb-2"><i class="bi bi-cpu me-2"></i>Thành thạo Claude AI &amp; LLM</h6>
+                                    <p class="small text-secondary mb-0">Hiểu rõ cơ chế hoạt động của Claude 3.5 Sonnet, GPT-4o, Llama 3 và ứng dụng tư duy phân tích vượt trội.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+                                    <h6 class="fw-bold text-warning mb-2"><i class="bi bi-terminal me-2"></i>Prompt Engineering Chuyên Sâu</h6>
+                                    <p class="small text-secondary mb-0">Nắm vững các kỹ thuật System Prompt, Few-Shot Prompting, Chain-of-Thought để tối ưu hóa kết quả AI.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+                                    <h6 class="fw-bold text-success mb-2"><i class="bi bi-graph-up-arrow me-2"></i>X3 Tốc Độ Làm Việc</h6>
+                                    <p class="small text-secondary mb-0">Tự động hóa công việc viết báo cáo, biên tập email, xử lý Excel và tạo ý tưởng bài viết chỉ trong vài giây.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+                                    <h6 class="fw-bold text-purple mb-2" style="color: #c084fc;"><i class="bi bi-gear-wide-connected me-2"></i>Tạo AI Agent Riêng</h6>
+                                    <p class="small text-secondary mb-0">Tự tay thiết lập trợ lý AI được đào tạo trên dữ liệu cá nhân/doanh nghiệp phục vụ công việc hàng ngày.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lộ trình 6 buổi học chi tiết -->
+                    <div class="content-card">
+                        <h3 class="section-heading">
+                            <i class="bi bi-journal-bookmark-fill"></i> Lộ Trình Đào Tạo (6 Buổi)
+                        </h3>
+                        <div class="accordion accordion-custom" id="curriculumAccordion">
+                            
+                            <!-- Buổi 1 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Buổi 1: Tổng Quan LLM &amp; Làm Chủ Claude AI &amp; ChatGPT
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#curriculumAccordion">
+                                    <div class="accordion-body">
+                                        - Giới thiệu tổng quan về Generative AI, Large Language Models (LLMs).<br>
+                                        - So sánh thế mạnh giữa Claude AI (Anthropic), ChatGPT (OpenAI) và Gemini (Google).<br>
+                                        - Khởi tạo và thiết lập môi trường làm việc chuẩn hóa cho cá nhân và nhóm.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Buổi 2 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Buổi 2: Nghệ Thuật Kỹ Sư Gợi Ý (Prompt Engineering)
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#curriculumAccordion">
+                                    <div class="accordion-body">
+                                        - Công thức thiết kế Prompt hiệu chuẩn: Role, Task, Context, Output format.<br>
+                                        - Kỹ thuật nâng cao: Zero-shot, Few-shot, Chain-of-Thought (CoT) prompting.<br>
+                                        - Xử lý các lỗi phản hồi của AI (Hallucination) và tinh chỉnh câu trả lời chính xác 99%.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Buổi 3 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Buổi 3: Tự Động Hóa Xoạn Thảo Văn Bản &amp; Phân Tích Dữ Liệu
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#curriculumAccordion">
+                                    <div class="accordion-body">
+                                        - Phân tích tài liệu PDF dài hàng trăm trang bằng Claude AI Artifacts trong vài giây.<br>
+                                        - Tự động tóm tắt biên bản cuộc họp, viết hợp đồng, email thương mại chuyên nghiệp.<br>
+                                        - Trích xuất dữ liệu thông minh và phân tích biểu đồ báo cáo kinh doanh.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Buổi 4 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                        Buổi 4: Sáng Tạo Nội Dung, Hình Ảnh &amp; Slide Thuyết Trình AI
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#curriculumAccordion">
+                                    <div class="accordion-body">
+                                        - Sử dụng AI tạo nội dung đa kênh: Bài viết Facebook, kịch bản Video TikTok/Youtube.<br>
+                                        - Tạo hình ảnh nghệ thuật và thiết kế sản phẩm với Midjourney / DALL-E 3.<br>
+                                        - Tự động hóa tạo Slide thuyết trình chuyên nghiệp chỉ với 1 cú click.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Buổi 5 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFive">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                        Buổi 5: Xây Dựng AI Agent &amp; Custom GPTs Chuyên Biệt
+                                    </button>
+                                </h2>
+                                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#curriculumAccordion">
+                                    <div class="accordion-body">
+                                        - Hướng dẫn tạo trợ lý AI (Custom Projects / GPTs) nạp dữ liệu nội bộ.<br>
+                                        - Thiết lập trợ lý tư vấn khách hàng, trợ lý hỗ trợ lập trình và trợ lý nhân sự.<br>
+                                        - Kết nối các công cụ AI thông qua API và công cụ hỗ trợ công việc.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Buổi 6 -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSix">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                        Buổi 6: Thực Hành Đồ Án Cuối Khóa &amp; Nhận Chứng Chỉ
+                                    </button>
+                                </h2>
+                                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#curriculumAccordion">
+                                    <div class="accordion-body">
+                                        - Học viên thực hành xây dựng hệ thống giải pháp AI trực tiếp áp dụng vào công việc của bản thân.<br>
+                                        - Giảng viên nhận xét, tối ưu hóa quy trình làm việc.<br>
+                                        - Bàn giao bộ Thư viện Prompt độc quyền và Cấp chứng chỉ hoàn thành khóa học.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Cột Phải: Widget Thông Tin Đăng Ký & Mạng Xã Hội -->
+                <div class="col-lg-4">
+                    
+                    <!-- Sidebar Card Khóa Học & Lịch Học -->
+                    <div class="sidebar-widget">
+                        <div class="text-center mb-3">
+                            <span class="text-secondary small uppercase fw-bold">HỌC PHÍ ƯU ĐÃI</span>
+                            <div class="d-flex justify-content-center align-items-baseline">
+                                <span class="price-tag">4.000.000 VNĐ</span>
+                                <span class="price-original">5.500.000đ</span>
+                            </div>
+                            <small class="text-success fw-semibold"><i class="bi bi-tag-fill me-1"></i>Tiết kiệm 1.500.000đ khi đăng ký tuần này</small>
+                        </div>
+
+                        <ul class="info-list">
+                            <li>
+                                <span class="info-label"><i class="bi bi-clock-history text-info"></i> Thời gian học:</span>
+                                <span class="info-value">6 buổi (3h/buổi)</span>
+                            </li>
+                            <li>
+                                <span class="info-label"><i class="bi bi-calendar3 text-warning"></i> Lịch học tuần:</span>
+                                <span class="info-value">Thứ 7 &amp; Chủ Nhật</span>
+                            </li>
+                            <li>
+                                <span class="info-label"><i class="bi bi-alarm text-danger"></i> Giờ học chi tiết:</span>
+                                <span class="info-value">13:30 - 16:30</span>
+                            </li>
+                            <li>
+                                <span class="info-label"><i class="bi bi-laptop text-primary"></i> Hình thức:</span>
+                                <span class="info-value">Online / Offline</span>
+                            </li>
+                            <li>
+                                <span class="info-label"><i class="bi bi-patch-check-fill text-success"></i> Chứng chỉ:</span>
+                                <span class="info-value">Nexus AI Master</span>
+                            </li>
+                        </ul>
+
+                        <button class="btn btn-gradient w-100 py-3 text-uppercase fw-bold mb-3" data-bs-toggle="modal" data-bs-target="#enrollModal">
+                            <i class="bi bi-cart-check-fill me-2"></i> Đăng Ký Khóa Học Ngay
+                        </button>
+                        <small class="text-secondary text-center d-block"><i class="bi bi-shield-check text-success me-1"></i> Cam kết hoàn tiền 100% nếu không hài lòng sau buổi 1.</small>
+                    </div>
+
+                    <!-- Sidebar Widget Mạng Xã Hội (Social Media Widget) -->
+                    <div class="sidebar-widget">
+                        <h4 class="widget-title">
+                            <i class="bi bi-share-fill text-info me-2"></i> Kết Nối Mạng Xã Hội
+                        </h4>
+                        <p class="text-secondary small mb-3">Theo dõi kênh truyền thông của Nexus IT Academy để cập nhật kiến thức AI &amp; Prompt miễn phí hàng ngày:</p>
+                        
+                        <a href="https://facebook.com" target="_blank" class="social-widget-btn btn-facebook">
+                            <i class="bi bi-facebook fs-4"></i>
+                            <div>
+                                <div>Facebook Community</div>
+                                <small class="fw-normal opacity-75">Cộng đồng 50k+ thành viên AI</small>
+                            </div>
+                        </a>
+
+                        <a href="https://youtube.com" target="_blank" class="social-widget-btn btn-youtube">
+                            <i class="bi bi-youtube fs-4"></i>
+                            <div>
+                                <div>Kênh YouTube Bài Giảng</div>
+                                <small class="fw-normal opacity-75">Xem Video Hướng Dẫn AI</small>
+                            </div>
+                        </a>
+
+                        <a href="https://tiktok.com" target="_blank" class="social-widget-btn btn-tiktok">
+                            <i class="bi bi-tiktok fs-4"></i>
+                            <div>
+                                <div>TikTok AI Tips</div>
+                                <small class="fw-normal opacity-75">Mẹo AI ngắn 60 giây</small>
+                            </div>
+                        </a>
+
+                        <a href="https://zalo.me" target="_blank" class="social-widget-btn btn-zalo">
+                            <i class="bi bi-chat-dots-fill fs-4"></i>
+                            <div>
+                                <div>Nhóm Zalo Hỗ Trợ 24/7</div>
+                                <small class="fw-normal opacity-75">Giải đáp thắc mắc trực tiếp</small>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-4 col-md-6">
+                    <a href="index.html" class="footer-brand">
+                        <i class="bi bi-cpu-fill me-2"></i>NEXUS IT ACADEMY
+                    </a>
+                    <p class="footer-desc mb-4 text-secondary small">
+                        Trung tâm đào tạo Công nghệ thông tin uy tín hàng đầu. Nâng tầm tri thức, khai phá tiềm năng số và kiến tạo tương lai sự nghiệp của bạn.
+                    </p>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="text-white fw-bold mb-3">Thông Tin Khóa Học AI</h5>
+                    <ul class="list-unstyled text-secondary small lh-lg">
+                        <li><strong class="text-white">Lịch học:</strong> Thứ 7 &amp; Chủ Nhật (13:30 - 16:30)</li>
+                        <li><strong class="text-white">Thời lượng:</strong> 6 buổi (3 giờ/buổi)</li>
+                        <li><strong class="text-white">Học phí:</strong> 4.000.000 VNĐ</li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="text-white fw-bold mb-3">Liên Hệ Trực Tiếp</h5>
+                    <p class="text-secondary small mb-1"><i class="bi bi-geo-alt text-info me-2"></i>Tầng 5, Tòa nhà TechHub, Q. Cầu Giấy, Hà Nội</p>
+                    <p class="text-secondary small mb-1"><i class="bi bi-telephone text-info me-2"></i>Hotline: 0988.123.456</p>
+                    <p class="text-secondary small"><i class="bi bi-envelope text-info me-2"></i>Email: contact@nexusacademy.edu.vn</p>
+                </div>
+            </div>
+            <div class="border-top border-secondary border-opacity-25 pt-4 mt-4 text-center text-secondary small">
+                &copy; 2026 Nexus IT Academy. Bảo lưu mọi quyền.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Form Đăng Ký -->
+    <div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="enrollModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-white fs-4" id="enrollModalLabel">
+                        <i class="bi bi-lightning-charge-fill text-warning me-2"></i>Đăng Ký Khóa Học AI Đột Phá
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="aiEnrollForm">
+                        <div class="alert alert-dark border-secondary mb-3 small">
+                            <i class="bi bi-info-circle text-info me-1"></i> Học phí: <strong>4.000.000 VNĐ</strong> | Lịch học: <strong>Thứ 7 &amp; CN (13:30 - 16:30)</strong>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentName" class="form-label text-secondary small fw-semibold">Họ và tên học viên *</label>
+                            <input type="text" class="form-control" id="studentName" placeholder="Nguyễn Văn A" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentPhone" class="form-label text-secondary small fw-semibold">Số điện thoại Zalo *</label>
+                            <input type="tel" class="form-control" id="studentPhone" placeholder="0987654321" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studentEmail" class="form-label text-secondary small fw-semibold">Email nhận bài giảng *</label>
+                            <input type="email" class="form-control" id="studentEmail" placeholder="nguyenvana@gmail.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="studyFormat" class="form-label text-secondary small fw-semibold">Hình thức học mong muốn</label>
+                            <select class="form-select" id="studyFormat">
+                                <option value="Học Online qua Zoom">Học Online tương tác qua Zoom</option>
+                                <option value="Học Offline tại trung tâm">Học Offline trực tiếp tại trung tâm</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-gradient w-100 py-3 mt-2">
+                            <i class="bi bi-check-circle-fill me-2"></i> XÁC NHẬN ĐĂNG KÝ HỌC PHÍ 4Tr
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        document.getElementById('aiEnrollForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('studentName').value;
+            const phone = document.getElementById('studentPhone').value;
+            const format = document.getElementById('studyFormat').value;
+
+            alert(`Chúc mừng ${name} (${phone}) đã đăng ký thành công khóa học "Ứng Dụng AI Đột Phá" (${format})!\nNexus IT Academy sẽ gửi thông tin lớp học Thứ 7 & CN (13:30 - 16:30) qua Zalo cho bạn.`);
+
+            const modalEl = document.getElementById('enrollModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+            this.reset();
+        });
+    </script>
+</body>
+</html>

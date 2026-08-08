@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MT Beauty Shop - Chuyên phụ kiện làm đẹp, nail art, trang sức cao cấp và thời trang nữ đón đầu xu hướng. Tôn vinh vẻ đẹp quyến rũ và khí chất của bạn.">
+    <meta name="keywords" content="MT Beauty Shop, phụ kiện làm đẹp, nail art, trang sức, quần áo thời trang, móng úp, nhẫn nữ, vòng tay">
+    <meta name="author" content="MT Beauty Shop">
+    <title>MT Beauty Shop | Phụ Kiện Làm Đẹp, Nail, Trang Sức & Thời Trang</title>
+
+    <!-- Bootstrap 5.3 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- FontAwesome 6 Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-rose: #d88a99;
+            --primary-rose-dark: #b86273;
+            --accent-gold: #d4af37;
+            --accent-gold-light: #f7e7ce;
+            --bg-soft-pink: #fdf6f7;
+            --text-dark: #2c2023;
+            --text-muted: #6e5d62;
+            --card-shadow: 0 10px 30px rgba(216, 138, 153, 0.12);
+            --transition-speed: 0.3s ease;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-dark);
+            background-color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .brand-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Top Bar Announcement */
+        .top-bar {
+            background: linear-gradient(90deg, #2c2023, #4a343a);
+            color: #f7e7ce;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Custom Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all var(--transition-speed);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+
+        .navbar-brand {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-dark) !important;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-brand span {
+            color: var(--primary-rose);
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dark) !important;
+            margin: 0 8px;
+            position: relative;
+            transition: color var(--transition-speed);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-rose) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 2px;
+            left: 50%;
+            background-color: var(--primary-rose);
+            transition: all var(--transition-speed);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 80%;
+        }
+
+        /* Buttons */
+        .btn-beauty {
+            background: linear-gradient(135deg, var(--primary-rose) 0%, var(--primary-rose-dark) 100%);
+            color: #fff !important;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            box-shadow: 0 8px 20px rgba(216, 138, 153, 0.35);
+            transition: all var(--transition-speed);
+        }
+
+        .btn-beauty:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(216, 138, 153, 0.5);
+            background: linear-gradient(135deg, var(--primary-rose-dark) 0%, var(--primary-rose) 100%);
+        }
+
+        .btn-beauty-outline {
+            border: 2px solid var(--primary-rose);
+            color: var(--primary-rose-dark) !important;
+            background: transparent;
+            padding: 11px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all var(--transition-speed);
+        }
+
+        .btn-beauty-outline:hover {
+            background-color: var(--primary-rose);
+            color: #fff !important;
+            transform: translateY(-3px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: radial-gradient(circle at 80% 20%, #fdf0f3 0%, #fff 60%);
+            padding: 110px 0 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #fff;
+            padding: 6px 18px;
+            border-radius: 30px;
+            border: 1px solid rgba(216, 138, 153, 0.3);
+            color: var(--primary-rose-dark);
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .hero-title .highlight {
+            color: var(--primary-rose);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: rgba(212, 175, 55, 0.25);
+            z-index: -1;
+            border-radius: 4px;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 35px;
+            line-height: 1.7;
+        }
+
+        .hero-image-wrapper {
+            position: relative;
+        }
+
+        .hero-img {
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(74, 52, 58, 0.15);
+            object-fit: cover;
+            width: 100%;
+            max-height: 480px;
+            border: 6px solid #ffffff;
+        }
+
+        .floating-badge {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            padding: 15px 22px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .floating-badge-1 {
+            bottom: -20px;
+            left: -20px;
+        }
+
+        .floating-badge-2 {
+            top: 20px;
+            right: -15px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Category Pill Badges */
+        .category-chip {
+            display: inline-block;
+            background-color: var(--bg-soft-pink);
+            color: var(--primary-rose-dark);
+            border: 1px solid rgba(216, 138, 153, 0.25);
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 4px;
+            transition: all var(--transition-speed);
+        }
+
+        .category-chip:hover {
+            background-color: var(--primary-rose);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 90px 0;
+            background-color: #ffffff;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-subtitle {
+            color: var(--primary-rose-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 2.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .feature-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px 30px;
+            border: 1px solid #f1e4e6;
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-speed);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-rose), var(--accent-gold));
+            opacity: 0;
+            transition: opacity var(--transition-speed);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(216, 138, 153, 0.22);
+            border-color: transparent;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon-box {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #fdf0f3 0%, #fae2e6 100%);
+            color: var(--primary-rose-dark);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            transition: all var(--transition-speed);
+        }
+
+        .feature-card:hover .feature-icon-box {
+            background: linear-gradient(135deg, var(--primary-rose) 0%, var(--primary-rose-dark) 100%);
+            color: #ffffff;
+            transform: scale(1.08) rotate(5deg);
+        }
+
+        .feature-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .feature-text {
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Products Showcase Section */
+        .products-section {
+            padding: 80px 0;
+            background-color: var(--bg-soft-pink);
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+            transition: all var(--transition-speed);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(216, 138, 153, 0.18);
+        }
+
+        .product-img-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 240px;
+            background-color: #f8f8f8;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.08);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--accent-gold);
+            color: #2c2023;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .product-body {
+            padding: 20px;
+        }
+
+        .product-category {
+            font-size: 0.8rem;
+            color: var(--primary-rose-dark);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 6px 0;
+        }
+
+        .product-price {
+            color: var(--primary-rose-dark);
+            font-weight: 800;
+            font-size: 1.15rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #23181a;
+            color: #d1c4c7;
+            padding-top: 70px;
+            padding-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        footer h5 {
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 22px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-rose);
+        }
+
+        .footer-links a {
+            color: #d1c4c7;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-rose);
+            transform: translateX(5px);
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            transition: all var(--transition-speed);
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background-color: var(--primary-rose);
+            color: #fff;
+            transform: translateY(-3px);
+        }
+
+        .copyright-border {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 50px;
+            padding-top: 25px;
+        }
+
+        /* Toast Container */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Announcement Bar -->
+    <div class="top-bar py-2 text-center">
+        <div class="container">
+            <i class="fa-solid fa-gift me-2 text-warning"></i>
+            Ưu đãi đặc biệt: <strong>Giảm ngay 20%</strong> cho đơn hàng đầu tiên với mã <code>MTBEAUTY20</code> | FreeShip đơn từ 399k!
+        </div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <!-- Brand Logo -->
+            <a class="navbar-brand brand-font d-flex align-items-center" href="#">
+                <i class="fa-solid fa-gem text-warning me-2 fs-4"></i>
+                MT <span>Beauty Shop</span>
+            </a>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#home">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#categories">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Tính năng nổi bật</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#showcase">Bộ sưu tập</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Liên hệ</a>
+                    </li>
+                </ul>
+
+                <!-- Navbar Action Button -->
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-beauty ms-lg-2" data-bs-toggle="modal" data-bs-target="#orderModal">
+                        <i class="fa-solid fa-bag-shopping me-2"></i>Mua Sắm Ngay
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-6">
+                    <div class="hero-badge">
+                        <i class="fa-solid fa-sparkles"></i> Bộ Sưu Tập Mới Nhất 2026
+                    </div>
+                    
+                    <!-- Catchy Title (Tiêu đề giật gân) -->
+                    <h1 class="hero-title">
+                        Đánh Thức <span class="highlight">Vẻ Đẹp Rạng Rỡ</span> & Khí Chất Thời Thượng!
+                    </h1>
+                    
+                    <!-- Short Description -->
+                    <p class="hero-desc">
+                        Khám phá ngay thiên đường mua sắm dành riêng cho phái đẹp tại <strong>MT Beauty Shop</strong>. Từ phụ kiện làm đẹp cao cấp, bộ Nail Art độc quyền, trang sức lấp lánh đến trang phục đón đầu xu hướng – Tất cả đã sẵn sàng giúp bạn tỏa sáng mỗi ngày!
+                    </p>
+                    
+                    <!-- Category Quick Badges -->
+                    <div class="mb-4">
+                        <span class="category-chip"><i class="fa-solid fa-wand-magic-sparkles me-1"></i> Phụ kiện làm đẹp</span>
+                        <span class="category-chip"><i class="fa-solid fa-hand-sparkles me-1"></i> Nail Art cá tính</span>
+                        <span class="category-chip"><i class="fa-solid fa-ring me-1"></i> Trang sức cao cấp</span>
+                        <span class="category-chip"><i class="fa-solid fa-shirt me-1"></i> Thời trang Hot Trend</span>
+                    </div>
+
+                    <!-- Call To Action (CTA) -->
+                    <div class="d-flex flex-wrap gap-3 align-items-center">
+                        <a href="#showcase" class="btn btn-beauty btn-lg px-4 py-3">
+                            <i class="fa-solid fa-fire me-2"></i> Khám Phá Ngay
+                        </a>
+                        <button class="btn btn-beauty-outline btn-lg px-4 py-3" data-bs-toggle="modal" data-bs-target="#promoModal">
+                            <i class="fa-solid fa-gift me-2"></i> Nhận Ưu Đãi 30%
+                        </button>
+                    </div>
+
+                    <!-- Social Proof / Stats -->
+                    <div class="d-flex align-items-center gap-4 mt-5 pt-3 border-top">
+                        <div>
+                            <h4 class="mb-0 fw-bold text-danger">15.000+</h4>
+                            <small class="text-muted">Khách hàng tin dùng</small>
+                        </div>
+                        <div class="border-end py-3"></div>
+                        <div>
+                            <h4 class="mb-0 fw-bold text-danger">4.9/5★</h4>
+                            <small class="text-muted">Đánh giá 5 sao</small>
+                        </div>
+                        <div class="border-end py-3"></div>
+                        <div>
+                            <h4 class="mb-0 fw-bold text-danger">100%</h4>
+                            <small class="text-muted">Hàng chính hãng</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visual Banner -->
+                <div class="col-lg-6">
+                    <div class="hero-image-wrapper text-center">
+                        <img src="assets/images/anhdaidien.jpg" alt="MT Beauty Shop Showcase" class="hero-img img-fluid">
+
+                        <!-- Floating Badge 1 -->
+                        <div class="floating-badge floating-badge-1 d-flex align-items-center gap-3">
+                            <div class="bg-success-subtle text-success p-2 rounded-circle">
+                                <i class="fa-solid fa-shield-check fs-4"></i>
+                            </div>
+                            <div class="text-start">
+                                <strong class="d-block text-dark">Cam kết chất lượng</strong>
+                                <small class="text-muted">Bảo hành 1 đổi 1 trong 7 ngày</small>
+                            </div>
+                        </div>
+
+                        <!-- Floating Badge 2 -->
+                        <div class="floating-badge floating-badge-2 d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-heart text-danger fs-5"></i>
+                            <span class="fw-bold text-dark">+500 Mẫu Mới Cập Nhật</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section (3 Cards Highlight Features) -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="row text-center section-header">
+                <div class="col-lg-8 mx-auto">
+                    <p class="section-subtitle">Vì sao phái đẹp tin chọn</p>
+                    <h2 class="section-title">Tính Năng & Ưu Điểm Nổi Bật Tại MT Beauty Shop</h2>
+                    <p class="text-muted mt-2">Chúng tôi không chỉ bán sản phẩm, chúng tôi mang đến trải nghiệm làm đẹp và định hình phong cách hoàn hảo nhất cho bạn.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Card 1 -->
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon-box">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <h3 class="feature-title">100% Chính Hãng & An Toàn</h3>
+                        <p class="feature-text">
+                            Tất cả sản phẩm phụ kiện làm đẹp, son móng nail art và trang sức đều được tuyển chọn kỹ lưỡng, cam kết chất liệu an toàn tuyệt đối cho làn da và sức khỏe của bạn.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon-box">
+                            <i class="fa-solid fa-sparkles"></i>
+                        </div>
+                        <h3 class="feature-title">Cập Nhật Hot Trend Liên Tục</h3>
+                        <p class="feature-text">
+                            Đón đầu các xu hướng thời trang, mẫu móng úp thiết kế thủ công độc quyền và phụ kiện trang sức mới nhất từ Hàn Quốc, Nhật Bản và Châu Âu mỗi tuần.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon-box">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <h3 class="feature-title">Giao Hàng Nhanh & Đổi Trả Dễ Dàng</h3>
+                        <p class="feature-text">
+                            Đóng gói quà tặng sang trọng, giao hàng hỏa tốc toàn quốc. Hỗ trợ 1 đổi 1 miễn phí tận nhà trong vòng 7 ngày nếu có bất kỳ lỗi nào từ nhà sản xuất.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories / Showcase Section -->
+    <section id="showcase" class="products-section">
+        <div class="container">
+            <div class="row text-center section-header">
+                <div class="col-lg-8 mx-auto">
+                    <p class="section-subtitle">Sản phẩm bán chạy nhất</p>
+                    <h2 class="section-title">Danh Mục Mặt Hàng Nổi Bật</h2>
+                    <p class="text-muted">Khám phá các dòng sản phẩm đa dạng sẵn có tại cửa hàng</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Product 1: Phụ kiện làm đẹp -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card">
+                        <div class="product-img-wrapper">
+                            <span class="product-badge">Hot</span>
+                            <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=500&q=80" alt="Phụ kiện làm đẹp" class="product-img">
+                        </div>
+                        <div class="product-body text-center">
+                            <span class="product-category">Phụ kiện làm đẹp</span>
+                            <h4 class="product-title">Bộ Cọ Trang Điểm Thượng Lưu</h4>
+                            <div class="product-price">299.000đ</div>
+                            <button class="btn btn-sm btn-beauty mt-3 w-100 add-to-cart-btn" data-name="Bộ Cọ Trang Điểm Thượng Lưu">
+                                <i class="fa-solid fa-cart-plus me-1"></i> Thêm vào giỏ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2: Nail Art -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card">
+                        <div class="product-img-wrapper">
+                            <span class="product-badge">New</span>
+                            <img src="https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=500&q=80" alt="Nail Art" class="product-img">
+                        </div>
+                        <div class="product-body text-center">
+                            <span class="product-category">Nail Art</span>
+                            <h4 class="product-title">Bộ Móng Úp Thiết Kế Đính Đá</h4>
+                            <div class="product-price">189.000đ</div>
+                            <button class="btn btn-sm btn-beauty mt-3 w-100 add-to-cart-btn" data-name="Bộ Móng Úp Thiết Kế Đính Đá">
+                                <i class="fa-solid fa-cart-plus me-1"></i> Thêm vào giỏ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3: Trang sức -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card">
+                        <div class="product-img-wrapper">
+                            <span class="product-badge">Best Seller</span>
+                            <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=500&q=80" alt="Trang sức" class="product-img">
+                        </div>
+                        <div class="product-body text-center">
+                            <span class="product-category">Trang sức</span>
+                            <h4 class="product-title">Dây Chuyền Mạ Vàng Bạc 925</h4>
+                            <div class="product-price">350.000đ</div>
+                            <button class="btn btn-sm btn-beauty mt-3 w-100 add-to-cart-btn" data-name="Dây Chuyền Mạ Vàng Bạc 925">
+                                <i class="fa-solid fa-cart-plus me-1"></i> Thêm vào giỏ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4: Quần áo -->
+                <div class="col-6 col-md-3">
+                    <div class="product-card">
+                        <div class="product-img-wrapper">
+                            <span class="product-badge">Trendy</span>
+                            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=500&q=80" alt="Quần áo thời trang" class="product-img">
+                        </div>
+                        <div class="product-body text-center">
+                            <span class="product-category">Quần áo thời trang</span>
+                            <h4 class="product-title">Đầm Lụa Dáng Xòe Sang Trọng</h4>
+                            <div class="product-price">450.000đ</div>
+                            <button class="btn btn-sm btn-beauty mt-3 w-100 add-to-cart-btn" data-name="Đầm Lụa Dáng Xòe Sang Trọng">
+                                <i class="fa-solid fa-cart-plus me-1"></i> Thêm vào giỏ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row g-4">
+                <!-- Col 1: Brand Info -->
+                <div class="col-lg-4 col-md-6">
+                    <a class="navbar-brand brand-font d-flex align-items-center text-white mb-3" href="#">
+                        <i class="fa-solid fa-gem text-warning me-2 fs-4"></i>
+                        MT <span style="color: var(--primary-rose);">Beauty Shop</span>
+                    </a>
+                    <p class="text-muted-footer pe-lg-4" style="color: #b5a4a7; line-height: 1.7;">
+                        MT Beauty Shop là điểm đến lý tưởng cho chị em phụ nữ yêu thích vẻ đẹp hoàn hảo. Chuyên cung cấp phụ kiện làm đẹp, nail art, trang sức và quần áo thời trang thời thượng.
+                    </p>
+                    <div class="mt-4">
+                        <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-solid fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Navigation Links -->
+                <div class="col-lg-2 col-md-6 footer-links">
+                    <h5>Danh Mục</h5>
+                    <a href="#showcase"><i class="fa-solid fa-angle-right me-2 text-warning"></i>Phụ kiện làm đẹp</a>
+                    <a href="#showcase"><i class="fa-solid fa-angle-right me-2 text-warning"></i>Nail Art & Móng Úp</a>
+                    <a href="#showcase"><i class="fa-solid fa-angle-right me-2 text-warning"></i>Trang Sức Cao Cấp</a>
+                    <a href="#showcase"><i class="fa-solid fa-angle-right me-2 text-warning"></i>Quần Áo Thời Trang</a>
+                </div>
+
+                <!-- Col 3: Customer Policy -->
+                <div class="col-lg-2 col-md-6 footer-links">
+                    <h5>Chính Sách</h5>
+                    <a href="#"><i class="fa-solid fa-angle-right me-2 text-warning"></i>Hướng dẫn mua hàng</a>
+                    <a href="#"><i class="fa-solid fa-angle-right me-2 text-warning"></i>Chính sách đổi trả</a>
+                    <a href="#"><i class="fa-solid fa-angle-right me-2 text-warning"></i>Bảo mật thông tin</a>
+                    <a href="#"><i class="fa-solid fa-angle-right me-2 text-warning"></i>Vận chuyển & Giao nhận</a>
+                </div>
+
+                <!-- Col 4: Contact Information -->
+                <div class="col-lg-4 col-md-6">
+                    <h5>Thông Tin Liên Hệ</h5>
+                    <ul class="list-unstyled text-muted-footer" style="color: #b5a4a7;">
+                        <li class="mb-3 d-flex align-items-start">
+                            <i class="fa-solid fa-location-dot text-danger me-3 mt-1"></i>
+                            <span>123 Đường Beauty, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh</span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="fa-solid fa-phone text-danger me-3"></i>
+                            <span>Hotline: <strong>0988.123.456 / 0909.888.999</strong></span>
+                        </li>
+                        <li class="mb-3 d-flex align-items-center">
+                            <i class="fa-solid fa-envelope text-danger me-3"></i>
+                            <span>Email: <strong>contact@mtbeautyshop.com</strong></span>
+                        </li>
+                        <li class="d-flex align-items-center">
+                            <i class="fa-solid fa-clock text-danger me-3"></i>
+                            <span>Giờ mở cửa: 08:00 - 22:00 (Tất cả các ngày)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright Line -->
+            <div class="row copyright-border text-center text-md-between align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                    <p class="mb-0 text-muted" style="color: #948286 !important;">
+                        &copy; 2026 <strong>MT Beauty Shop</strong>. Tất cả quyền được bảo lưu. Designed with <i class="fa-solid fa-heart text-danger"></i>
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <span class="text-muted small me-3" style="color: #948286 !important;">Thanh toán an toàn qua:</span>
+                    <i class="fa-brands fa-cc-visa text-light fs-5 me-2"></i>
+                    <i class="fa-brands fa-cc-mastercard text-light fs-5 me-2"></i>
+                    <i class="fa-solid fa-qrcode text-light fs-5"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Order Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-header-title brand-font fw-bold fs-4 ms-2 mt-2" id="orderModalLabel">Đặt Hàng / Tư Vấn Miễn Phí</h5>
+                    <button type="button" class="btn-close me-2 mt-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="orderForm">
+                        <div class="mb-3">
+                            <label for="userName" class="form-label font-weight-bold">Họ và tên của bạn</label>
+                            <input type="text" class="form-control rounded-3" id="userName" placeholder="Nguyễn Văn A" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userPhone" class="form-label font-weight-bold">Số điện thoại liên hệ</label>
+                            <input type="tel" class="form-control rounded-3" id="userPhone" placeholder="0901 234 567" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productSelect" class="form-label font-weight-bold">Sản phẩm quan tâm</label>
+                            <select class="form-select rounded-3" id="productSelect">
+                                <option value="all">Tất cả sản phẩm / Cần tư vấn thêm</option>
+                                <option value="beauty">Phụ kiện làm đẹp</option>
+                                <option value="nail">Nail Art & Móng úp</option>
+                                <option value="jewelry">Trang sức cao cấp</option>
+                                <option value="clothes">Quần áo thời trang</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userNote" class="form-label font-weight-bold">Ghi chú thêm</label>
+                            <textarea class="form-control rounded-3" id="userNote" rows="2" placeholder="Địa chỉ giao hàng hoặc yêu cầu riêng..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-beauty w-100 py-3 mt-2 fs-6">
+                            <i class="fa-paper-plane fa-solid me-2"></i> Gửi Yêu Cầu Đặt Hàng
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Promo Modal -->
+    <div class="modal fade" id="promoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 text-center p-4">
+                <div class="modal-body">
+                    <div class="text-warning fs-1 mb-2">
+                        <i class="fa-solid fa-gift"></i>
+                    </div>
+                    <h3 class="brand-font fw-bold text-dark">Nhận Ngay Mã Giảm 30%</h3>
+                    <p class="text-muted">Nhập email để nhận mã giảm giá đặc biệt cho đơn hàng đầu tiên tại MT Beauty Shop!</p>
+                    <div class="input-group mb-3 mt-4">
+                        <input type="email" id="promoEmail" class="form-control rounded-start-pill py-2 ps-3" placeholder="Nhập địa chỉ email của bạn...">
+                        <button class="btn btn-beauty rounded-end-pill px-4" type="button" id="btnClaimPromo">Nhận Mã</button>
+                    </div>
+                    <small class="text-muted">*Mã có hiệu lực trong vòng 48h kể từ khi kích hoạt.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container">
+        <div id="liveToast" class="toast border-0 shadow-lg rounded-3" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-danger text-white rounded-top-3">
+                <i class="fa-solid fa-circle-check me-2"></i>
+                <strong class="me-auto" id="toastTitle">Thông báo</strong>
+                <small>Vừa xong</small>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body bg-white text-dark rounded-bottom-3" id="toastMessage">
+                Nội dung thông báo...
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5.3 JS Bundle CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Custom JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Toast Instance
+            const toastEl = document.getElementById('liveToast');
+            const toast = new bootstrap.Toast(toastEl, { delay: 3500 });
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMessage = document.getElementById('toastMessage');
+
+            function showToast(title, message) {
+                toastTitle.textContent = title;
+                toastMessage.textContent = message;
+                toast.show();
+            }
+
+            // Handle Add to Cart Buttons
+            const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+            addToCartBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const productName = this.getAttribute('data-name') || 'Sản phẩm';
+                    showToast('Đã Thêm Vào Giỏ!', `Đã thêm "${productName}" vào giỏ hàng thành công.`);
+                });
+            });
+
+            // Handle Order Form Submit
+            const orderForm = document.getElementById('orderForm');
+            if (orderForm) {
+                orderForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const userName = document.getElementById('userName').value;
+                    
+                    // Close modal
+                    const modalEl = document.getElementById('orderModal');
+                    const modal = bootstrap.Modal.getInstance(modalEl);
+                    if (modal) modal.hide();
+
+                    // Reset form & show toast
+                    orderForm.reset();
+                    showToast('Đặt Hàng Thành Công!', `Cảm ơn ${userName}, MT Beauty Shop sẽ liên hệ tư vấn và xác nhận đơn hàng sớm nhất!`);
+                });
+            }
+
+            // Handle Promo Claim
+            const btnClaimPromo = document.getElementById('btnClaimPromo');
+            if (btnClaimPromo) {
+                btnClaimPromo.addEventListener('click', function () {
+                    const emailInput = document.getElementById('promoEmail');
+                    if (emailInput && emailInput.value.trim() !== '') {
+                        const modalEl = document.getElementById('promoModal');
+                        const modal = bootstrap.Modal.getInstance(modalEl);
+                        if (modal) modal.hide();
+
+                        showToast('Nhận Mã Thành Công!', `Mã giảm 30% [MTBEAUTY30] đã gửi tới email: ${emailInput.value}`);
+                        emailInput.value = '';
+                    } else {
+                        alert('Vui lòng nhập địa chỉ email hợp lệ!');
+                    }
+                });
+            }
+
+            // Smooth Scroll for Navigation Links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId !== '#') {
+                        const targetSection = document.querySelector(targetId);
+                        if (targetSection) {
+                            e.preventDefault();
+                            targetSection.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+
+                            // Close mobile collapse navbar if open
+                            const navbarCollapse = document.getElementById('navbarContent');
+                            if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+                                const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                                bsCollapse.hide();
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
