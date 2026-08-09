@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 280" width="100%" height="100%">
+  <defs>
+    <style>
+      .tree-line { fill: none; stroke: #005B36; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
+      .brand-title { font-family: 'Playfair Display', 'Cinzel', 'Times New Roman', serif; font-weight: 800; fill: #005B36; font-size: 32px; letter-spacing: 2px; }
+      .brand-sub { font-family: 'Playfair Display', 'Georgia', serif; font-weight: 600; fill: #005B36; font-size: 38px; letter-spacing: 0.5px; }
+    </style>
+  </defs>
+
+  <!-- ICON DOME / CANOPY -->
+  <g transform="translate(45, 5)">
+    <!-- Colored Diamond Grid Fills -->
+    <!-- Top Gold/Yellow Fill -->
+    <path d="M 105,32 Q 105,48 105,65 Q 90,55 75,50 Q 88,38 105,32 Z" fill="#F4C414" />
+    <path d="M 105,32 Q 122,38 135,50 Q 120,55 105,65 Q 105,48 105,32 Z" fill="#F4C414" />
+    <path d="M 105,65 Q 85,75 65,85 Q 52,72 75,50 Q 90,55 105,65 Z" fill="#CDDC39" />
+    <path d="M 105,65 Q 120,55 135,50 Q 158,72 145,85 Q 125,75 105,65 Z" fill="#CDDC39" />
+
+    <!-- Center Green / Lime Fills -->
+    <path d="M 105,65 Q 105,92 105,120 Q 85,102 65,85 Q 85,75 105,65 Z" fill="#8BC34A" />
+    <path d="M 105,65 Q 125,75 145,85 Q 125,102 105,120 Q 105,92 105,65 Z" fill="#8BC34A" />
+
+    <!-- Lower Turquoise / Blue Fills -->
+    <path d="M 105,120 Q 90,135 78,145 Q 65,122 65,85 Q 85,102 105,120 Z" fill="#26A69A" />
+    <path d="M 105,120 Q 125,102 145,85 Q 145,122 132,145 Q 120,135 105,120 Z" fill="#26A69A" />
+    <path d="M 105,120 Q 105,145 105,168 Q 92,158 78,145 Q 90,135 105,120 Z" fill="#0288D1" />
+    <path d="M 105,120 Q 120,135 132,145 Q 118,158 105,168 Q 105,145 105,120 Z" fill="#0288D1" />
+
+    <!-- Lattice Grid Curves (Emerald Green Lines) -->
+    <!-- Downward Left Arches -->
+    <path d="M 105,15 C 65,30 35,70 30,125" class="tree-line" />
+    <path d="M 105,32 C 72,48 48,82 42,138" class="tree-line" />
+    <path d="M 105,50 C 80,68 62,98 55,152" class="tree-line" />
+    <path d="M 105,68 C 88,85 75,115 70,165" class="tree-line" />
+    <path d="M 105,88 C 94,105 85,130 82,175" class="tree-line" />
+
+    <!-- Downward Right Arches -->
+    <path d="M 105,15 C 145,30 175,70 180,125" class="tree-line" />
+    <path d="M 105,32 C 138,48 162,82 168,138" class="tree-line" />
+    <path d="M 105,50 C 130,68 148,98 155,152" class="tree-line" />
+    <path d="M 105,68 C 122,85 135,115 140,165" class="tree-line" />
+    <path d="M 105,88 C 116,105 125,130 128,175" class="tree-line" />
+
+    <!-- Upward/Cross Horizontal Lattice Waves -->
+    <path d="M 30,62 Q 105,10 180,62" class="tree-line" />
+    <path d="M 34,82 Q 105,30 176,82" class="tree-line" />
+    <path d="M 40,102 Q 105,50 170,102" class="tree-line" />
+    <path d="M 48,122 Q 105,70 162,122" class="tree-line" />
+    <path d="M 58,142 Q 105,90 152,142" class="tree-line" />
+
+    <!-- Trunk Legs -->
+    <path d="M 88,160 C 85,185 92,205 95,212 C 98,200 100,180 102,165" fill="#005B36" />
+    <path d="M 122,160 C 125,185 118,205 115,212 C 112,200 110,180 108,165" fill="#005B36" />
+  </g>
+
+  <!-- TEXT PORTION BELOW ICON -->
+  <text x="150" y="242" text-anchor="middle" class="brand-title">VINHOMES</text>
+  <text x="150" y="278" text-anchor="middle" class="brand-sub">Grand Park</text>
+</svg>
