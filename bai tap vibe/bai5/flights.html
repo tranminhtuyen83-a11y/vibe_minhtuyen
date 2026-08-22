@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Chuyến Bay - TravelViet</title>
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <i class="fa-solid fa-plane-departure"></i>
+          <span>TravelViet</span>
+        </a>
+        <div class="nav-links">
+          <a href="index.html"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+          <a href="flights.html" class="active"><i class="fa-solid fa-plane"></i> Chuyến Bay</a>
+          <a href="tours.html"><i class="fa-solid fa-route"></i> Tour Du Lịch</a>
+        </div>
+        <div class="header-actions">
+          <a href="cart.html" class="cart-icon-btn" title="Giỏ hàng">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-badge">0</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <div style="background-color: var(--primary-light); padding: 2rem 0; border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--primary-hover);" id="searchTitle">
+        Tìm Kiếm Chuyến Bay
+      </h1>
+      <p style="color: var(--text-muted); font-size: 0.95rem;" id="searchSubtitle">
+        Hiển thị các chuyến bay tốt nhất theo nhu cầu của bạn
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="container">
+    <div class="page-layout-2col">
+      
+      <!-- Filter Sidebar -->
+      <aside class="filter-sidebar">
+        <div class="filter-title">
+          <span><i class="fa-solid fa-filter"></i> Bộ Lọc Tìm Kiếm</span>
+          <button type="button" id="resetFiltersBtn" class="btn btn-sm btn-outline" style="font-size:0.75rem; padding:0.2rem 0.5rem;">Đặt lại</button>
+        </div>
+
+        <!-- Sort By Price -->
+        <div class="filter-group">
+          <div class="filter-group-title">Sắp xếp theo giá</div>
+          <select id="sortPriceSelect" class="form-control" style="font-size:0.88rem;">
+            <option value="asc">Giá: Thấp đến Cao</option>
+            <option value="desc">Giá: Cao đến Thấp</option>
+          </select>
+        </div>
+
+        <!-- Flight Type (Direct vs Transit) -->
+        <div class="filter-group">
+          <div class="filter-group-title">Kiểu bay</div>
+          <div class="filter-options">
+            <label><input type="radio" name="flightTypeFilter" value="all" checked> Tất cả</label>
+            <label><input type="radio" name="flightTypeFilter" value="direct"> Bay thẳng (Direct)</label>
+            <label><input type="radio" name="flightTypeFilter" value="transit"> 1 điểm dừng (Transit)</label>
+          </div>
+        </div>
+
+        <!-- Departure Time Slots -->
+        <div class="filter-group">
+          <div class="filter-group-title">Khung giờ cất cánh</div>
+          <div class="filter-options">
+            <label><input type="checkbox" class="time-filter" value="night"> Sáng sớm (00:00 - 06:00)</label>
+            <label><input type="checkbox" class="time-filter" value="morning"> Sáng (06:00 - 12:00)</label>
+            <label><input type="checkbox" class="time-filter" value="afternoon"> Chiều (12:00 - 18:00)</label>
+            <label><input type="checkbox" class="time-filter" value="evening"> Tối (18:00 - 24:00)</label>
+          </div>
+        </div>
+
+        <!-- Airlines Checkboxes -->
+        <div class="filter-group">
+          <div class="filter-group-title">Hãng hàng không</div>
+          <div class="filter-options" id="airlineFiltersList">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Flight List Content -->
+      <main>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3 style="font-size: 1.1rem; font-weight: 700;" id="flightCountText">Đang tìm chuyến bay...</h3>
+        </div>
+
+        <!-- Flights List Container -->
+        <div id="flightsListContainer">
+          <div style="text-align: center; padding: 3rem; background: var(--bg-card); border-radius: var(--radius-md);">
+            <i class="fa-solid fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i>
+            <p class="mt-2">Đang tải dữ liệu chuyến bay...</p>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p>&copy; 2026 TravelViet. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramOrigin = urlParams.get('origin') || '';
+      const paramDestination = urlParams.get('destination') || '';
+      const paramAirline = urlParams.get('airline') || '';
+
+      const searchTitle = document.getElementById('searchTitle');
+      const searchSubtitle = document.getElementById('searchSubtitle');
+      if (paramOrigin && paramDestination) {
+        searchTitle.textContent = `Chuyến bay từ ${paramOrigin} đến ${paramDestination}`;
+        searchSubtitle.textContent = `Các chuyến bay tốt nhất phù hợp lịch trình của bạn`;
+      }
+
+      let allFlights = [];
+
+      function loadFlightsData() {
+        if (!db) {
+          setTimeout(loadFlightsData, 200);
+          return;
+        }
+
+        // Fetch Airlines for Filter Sidebar
+        const airlines = dbQuery(`SELECT * FROM airlines`);
+        const airlineListEl = document.getElementById('airlineFiltersList');
+        if (airlineListEl) {
+          airlineListEl.innerHTML = airlines.map(a => `
+            <label>
+              <input type="checkbox" class="airline-filter" value="${a.code}" ${paramAirline === a.code ? 'checked' : ''}>
+              ${a.name}
+            </label>
+          `).join('');
+        }
+
+        // Fetch Flights from DB
+        let query = `
+          SELECT f.*, a.name as airline_name, a.code as airline_code, a.logo_url
+          FROM flights f
+          LEFT JOIN airlines a ON f.airline_id = a.id
+        `;
+        let conditions = [];
+        let params = [];
+
+        if (paramOrigin) {
+          conditions.push(`f.departure_city LIKE ?`);
+          params.push(`%${paramOrigin}%`);
+        }
+        if (paramDestination) {
+          conditions.push(`f.arrival_city LIKE ?`);
+          params.push(`%${paramDestination}%`);
+        }
+
+        if (conditions.length > 0) {
+          query += ` WHERE ` + conditions.join(' AND ');
+        }
+
+        allFlights = dbQuery(query, params);
+        applyFiltersAndRender();
+      }
+
+      function applyFiltersAndRender() {
+        let filtered = [...allFlights];
+
+        // 1. Sort by price
+        const sortVal = document.getElementById('sortPriceSelect').value;
+        filtered.sort((a, b) => sortVal === 'asc' ? a.price_economy - b.price_economy : b.price_economy - a.price_economy);
+
+        // 2. Flight type filter
+        const flightTypeVal = document.querySelector('input[name="flightTypeFilter"]:checked').value;
+        if (flightTypeVal !== 'all') {
+          filtered = filtered.filter(f => f.flight_type === flightTypeVal);
+        }
+
+        // 3. Airline filter
+        const checkedAirlines = Array.from(document.querySelectorAll('.airline-filter:checked')).map(cb => cb.value);
+        if (checkedAirlines.length > 0) {
+          filtered = filtered.filter(f => checkedAirlines.includes(f.airline_code));
+        }
+
+        // Render List
+        const container = document.getElementById('flightsListContainer');
+        const countText = document.getElementById('flightCountText');
+
+        if (countText) {
+          countText.textContent = `Tìm thấy ${filtered.length} chuyến bay phù hợp`;
+        }
+
+        if (filtered.length === 0) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 4rem; background: var(--bg-card); border-radius: var(--radius-md); border: 1px dashed var(--border-color);">
+              <i class="fa-solid fa-plane-slash fa-3x" style="color: var(--text-muted);"></i>
+              <h3 class="mt-2" style="font-weight:700;">Không tìm thấy chuyến bay nào</h3>
+              <p style="color: var(--text-muted);">Vui lòng thử lại với các tiêu chí lọc khác.</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = filtered.map(f => `
+          <div class="flight-card">
+            <div class="flight-airline">
+              <img src="${f.logo_url}" alt="${f.airline_name}">
+              <div class="airline-info">
+                <h5>${f.airline_name}</h5>
+                <p>Mã: <strong>${f.flight_code}</strong> | ${f.aircraft_type}</p>
+              </div>
+            </div>
+
+            <div class="flight-timeline">
+              <div class="flight-time-box">
+                <h4>${formatTime(f.departure_time)}</h4>
+                <p>${f.departure_city}</p>
+              </div>
+              <div class="flight-duration-box">
+                <span style="font-size:0.78rem; color:var(--text-muted);">${Math.floor(f.duration_minutes / 60)}h ${f.duration_minutes % 60}m</span>
+                <div class="flight-duration-line">
+                  <i class="fa-solid fa-plane"></i>
+                </div>
+                <span class="badge ${f.flight_type === 'direct' ? 'badge-success' : 'badge-warning'}">${f.flight_type === 'direct' ? 'Bay thẳng' : '1 điểm dừng'}</span>
+              </div>
+              <div class="flight-time-box">
+                <h4>${formatTime(f.arrival_time)}</h4>
+                <p>${f.arrival_city}</p>
+              </div>
+            </div>
+
+            <div class="flight-price-action">
+              <div class="flight-price">${formatVND(f.price_economy)}</div>
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.6rem;">Phổ thông / Khách</div>
+              <a href="flight-detail.html?id=${f.id}" class="btn btn-primary btn-sm">Chọn Chuyến Bay</a>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Event listeners for filters
+      document.getElementById('sortPriceSelect').addEventListener('change', applyFiltersAndRender);
+      document.querySelectorAll('input[name="flightTypeFilter"]').forEach(r => r.addEventListener('change', applyFiltersAndRender));
+      document.getElementById('airlineFiltersList').addEventListener('change', applyFiltersAndRender);
+
+      document.getElementById('resetFiltersBtn').addEventListener('click', () => {
+        document.getElementById('sortPriceSelect').value = 'asc';
+        document.querySelector('input[name="flightTypeFilter"][value="all"]').checked = true;
+        document.querySelectorAll('.airline-filter').forEach(cb => cb.checked = false);
+        applyFiltersAndRender();
+      });
+
+      loadFlightsData();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Tour Du Lịch - TravelViet</title>
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <i class="fa-solid fa-plane-departure"></i>
+          <span>TravelViet</span>
+        </a>
+        <div class="nav-links">
+          <a href="index.html"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+          <a href="flights.html"><i class="fa-solid fa-plane"></i> Chuyến Bay</a>
+          <a href="tours.html" class="active"><i class="fa-solid fa-route"></i> Tour Du Lịch</a>
+        </div>
+        <div class="header-actions">
+          <a href="cart.html" class="cart-icon-btn" title="Giỏ hàng">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-badge">0</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <div style="background-color: var(--primary-light); padding: 2rem 0; border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--primary-hover);">
+        Tour Du Lịch Đặc Sắc
+      </h1>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">
+        Khám phá hàng trăm hành trình hấp dẫn trong nước và quốc tế
+      </p>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="container">
+    <div class="page-layout-2col">
+      
+      <!-- Filter Sidebar -->
+      <aside class="filter-sidebar">
+        <div class="filter-title">
+          <span><i class="fa-solid fa-filter"></i> Lọc Tour</span>
+          <button type="button" id="resetTourFiltersBtn" class="btn btn-sm btn-outline" style="font-size:0.75rem; padding:0.2rem 0.5rem;">Đặt lại</button>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-group-title">Sắp xếp theo giá</div>
+          <select id="sortTourPrice" class="form-control" style="font-size:0.88rem;">
+            <option value="asc">Giá: Thấp đến Cao</option>
+            <option value="desc">Giá: Cao đến Thấp</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-group-title">Quốc gia / Điểm đến</div>
+          <div class="filter-options" id="countryFilterList">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-group-title">Đơn vị lữ hành</div>
+          <div class="filter-options">
+            <label><input type="checkbox" class="agency-filter" value="TravelViet"> TravelViet</label>
+            <label><input type="checkbox" class="agency-filter" value="Vietravel"> Vietravel</label>
+            <label><input type="checkbox" class="agency-filter" value="Saigontourist"> Saigontourist</label>
+            <label><input type="checkbox" class="agency-filter" value="Fiditour"> Fiditour</label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Tour Grid -->
+      <main>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h3 style="font-size: 1.1rem; font-weight: 700;" id="tourCountText">Đang tải danh sách Tour...</h3>
+        </div>
+
+        <div class="card-grid" id="toursListGrid">
+          <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+            <i class="fa-solid fa-circle-notch fa-spin fa-2x" style="color: var(--primary);"></i>
+            <p class="mt-2">Đang tải dữ liệu...</p>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p>&copy; 2026 TravelViet. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramCountry = urlParams.get('destination') || '';
+
+      let allTours = [];
+
+      function loadToursData() {
+        if (!db) {
+          setTimeout(loadToursData, 200);
+          return;
+        }
+
+        // Render Country Filter Checkboxes
+        const countries = dbQuery(`SELECT DISTINCT country FROM tours`);
+        const countryListEl = document.getElementById('countryFilterList');
+        if (countryListEl) {
+          countryListEl.innerHTML = countries.map(c => `
+            <label>
+              <input type="checkbox" class="country-filter" value="${c.country}" ${paramCountry.includes(c.country) ? 'checked' : ''}>
+              ${c.country}
+            </label>
+          `).join('');
+        }
+
+        allTours = dbQuery(`SELECT * FROM tours`);
+        applyTourFilters();
+      }
+
+      function applyTourFilters() {
+        let filtered = [...allTours];
+
+        // 1. Sort price
+        const sortVal = document.getElementById('sortTourPrice').value;
+        filtered.sort((a, b) => sortVal === 'asc' ? a.price - b.price : b.price - a.price);
+
+        // 2. Country filter
+        const checkedCountries = Array.from(document.querySelectorAll('.country-filter:checked')).map(cb => cb.value);
+        if (checkedCountries.length > 0) {
+          filtered = filtered.filter(t => checkedCountries.some(c => t.country.includes(c)));
+        }
+
+        // 3. Agency filter
+        const checkedAgencies = Array.from(document.querySelectorAll('.agency-filter:checked')).map(cb => cb.value);
+        if (checkedAgencies.length > 0) {
+          filtered = filtered.filter(t => checkedAgencies.includes(t.travel_agency));
+        }
+
+        // Render Grid
+        const grid = document.getElementById('toursListGrid');
+        const countText = document.getElementById('tourCountText');
+        if (countText) countText.textContent = `Tìm thấy ${filtered.length} Tour du lịch phù hợp`;
+
+        if (filtered.length === 0) {
+          grid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 4rem; background: var(--bg-card); border-radius: var(--radius-md);">
+              <i class="fa-solid fa-compass-slash fa-3x" style="color: var(--text-muted);"></i>
+              <h3 class="mt-2" style="font-weight:700;">Không tìm thấy Tour phù hợp</h3>
+              <p style="color: var(--text-muted);">Vui lòng thử bỏ lọc hoặc chọn quốc gia khác.</p>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = filtered.map(t => `
+          <div class="tour-card">
+            <div class="tour-card-img">
+              <img src="${t.thumbnail_url}" alt="${t.title}">
+              <span class="tour-badge-country">${t.country}</span>
+            </div>
+            <div class="tour-card-body">
+              <div class="tour-agency">${t.travel_agency}</div>
+              <h3 class="tour-title">${t.title}</h3>
+              <div class="tour-meta">
+                <span><i class="fa-solid fa-clock"></i> ${t.duration_days}N${t.duration_nights}Đ</span>
+                <span><i class="fa-solid fa-star" style="color:var(--accent);"></i> ${t.rating || '4.9'}</span>
+              </div>
+              <div class="tour-price-box">
+                <div>
+                  <div class="tour-price">${formatVND(t.price)}</div>
+                  <div class="tour-price-sub">Trọn gói / Khách</div>
+                </div>
+                <a href="tour-detail.html?id=${t.id}" class="btn btn-primary btn-sm">Xem Chi Tiết</a>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      document.getElementById('sortTourPrice').addEventListener('change', applyTourFilters);
+      document.getElementById('countryFilterList').addEventListener('change', applyTourFilters);
+      document.querySelectorAll('.agency-filter').forEach(cb => cb.addEventListener('change', applyTourFilters));
+
+      document.getElementById('resetTourFiltersBtn').addEventListener('click', () => {
+        document.getElementById('sortTourPrice').value = 'asc';
+        document.querySelectorAll('.country-filter, .agency-filter').forEach(cb => cb.checked = false);
+        applyTourFilters();
+      });
+
+      loadToursData();
+    });
+  </script>
+</body>
+</html>

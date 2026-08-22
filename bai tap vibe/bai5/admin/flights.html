@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Chuyến Bay - TravelViet Admin</title>
+  
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <i class="fa-solid fa-plane-departure"></i>
+        <span>TravelViet Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="dashboard.html" class="admin-nav-item"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a>
+        <a href="tours.html" class="admin-nav-item"><i class="fa-solid fa-route"></i> <span>Quản lý Tour</span></a>
+        <a href="flights.html" class="admin-nav-item active"><i class="fa-solid fa-plane"></i> <span>Quản lý Chuyến bay</span></a>
+        <a href="profile.html" class="admin-nav-item"><i class="fa-solid fa-user-gear"></i> <span>Hồ sơ Admin</span></a>
+        <a href="../index.html" class="admin-nav-item" style="margin-top:auto;"><i class="fa-solid fa-house"></i> <span>Về Trang Chủ</span></a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="admin-topbar-title">Quản Lý Chuyến Bay</div>
+        <div class="admin-user-info">
+          <button class="btn btn-primary btn-sm" id="btnOpenAddFlightModal"><i class="fa-solid fa-plus"></i> Tạo Chuyến Bay Mới</button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        
+        <div class="table-card">
+          <div class="table-header">
+            <h3 style="font-size:1.1rem; font-weight:700;">Danh Sách Chuyến Bay (Phân trang 20/trang)</h3>
+            <div class="table-actions">
+              <input type="text" id="flightSearchInput" class="form-control" placeholder="Tìm mã chuyến bay, điểm đi/đến..." style="width:240px; font-size:0.88rem;">
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Mã Bay</th>
+                  <th>Hãng Bay</th>
+                  <th>Hành Trình</th>
+                  <th>Giờ Cất Cánh</th>
+                  <th>Loại</th>
+                  <th>Giá Vé (Eco / Bus)</th>
+                  <th>Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="adminFlightsTableBody">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination Bar -->
+          <div class="pagination-wrapper" id="flightsPagination">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Add/Edit Flight Modal -->
+  <div class="modal-backdrop" id="flightFormModal">
+    <div class="modal-dialog" style="max-width: 700px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="flightModalTitle">Tạo Chuyến Bay Mới</h3>
+        <button class="modal-close" onclick="closeModal('flightFormModal')">&times;</button>
+      </div>
+      <form id="flightSaveForm">
+        <div class="modal-body">
+          <input type="hidden" id="flightEditId">
+          
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Mã chuyến bay *</label>
+              <input type="text" id="flightCodeInput" class="form-control" placeholder="VN101" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hãng hàng không *</label>
+              <select id="flightAirlineInput" class="form-control" required>
+                <option value="1">Vietnam Airlines</option>
+                <option value="2">VietJet Air</option>
+                <option value="3">Bamboo Airways</option>
+                <option value="5">Singapore Airlines</option>
+                <option value="10">Emirates</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Loại máy bay</label>
+              <input type="text" id="flightAircraftInput" class="form-control" value="Boeing 787 Dreamliner">
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Điểm xuất phát *</label>
+              <input type="text" id="flightDepCityInput" class="form-control" value="TP.HCM (SGN)" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Điểm đến *</label>
+              <input type="text" id="flightArrCityInput" class="form-control" value="Hà Nội (HAN)" required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Thời gian cất cánh *</label>
+              <input type="datetime-local" id="flightDepTimeInput" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Thời gian hạ cánh *</label>
+              <input type="datetime-local" id="flightArrTimeInput" class="form-control" required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Kiểu chuyến bay</label>
+              <select id="flightTypeInput" class="form-control">
+                <option value="direct">Bay thẳng (Direct)</option>
+                <option value="transit">Quá cảnh (Transit)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giá vé Phổ Thông *</label>
+              <input type="number" id="flightPriceEcoInput" class="form-control" value="1850000" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giá vé Thương Gia *</label>
+              <input type="number" id="flightPriceBusInput" class="form-control" value="4500000" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('flightFormModal')">Hủy</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Lưu Chuyến Bay</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/db.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!requireAdminGuard()) return;
+
+      renderAdminFlights(1);
+
+      document.getElementById('flightSearchInput').addEventListener('input', (e) => {
+        renderAdminFlights(1, e.target.value.trim());
+      });
+
+      document.getElementById('btnOpenAddFlightModal').addEventListener('click', () => {
+        document.getElementById('flightModalTitle').textContent = 'Tạo Chuyến Bay Mới';
+        document.getElementById('flightEditId').value = '';
+        document.getElementById('flightCodeInput').value = 'VN' + Math.floor(100 + Math.random() * 900);
+        document.getElementById('flightDepTimeInput').value = '2026-09-10T08:00';
+        document.getElementById('flightArrTimeInput').value = '2026-09-10T10:15';
+        openModal('flightFormModal');
+      });
+
+      window.editFlight = function(id) {
+        const flights = dbQuery(`SELECT * FROM flights WHERE id = ?`, [id]);
+        if (flights.length === 0) return;
+        const f = flights[0];
+
+        document.getElementById('flightModalTitle').textContent = 'Sửa Chuyến Bay';
+        document.getElementById('flightEditId').value = f.id;
+        document.getElementById('flightCodeInput').value = f.flight_code;
+        document.getElementById('flightAirlineInput').value = f.airline_id;
+        document.getElementById('flightAircraftInput').value = f.aircraft_type;
+        document.getElementById('flightDepCityInput').value = f.departure_city;
+        document.getElementById('flightArrCityInput').value = f.arrival_city;
+        document.getElementById('flightTypeInput').value = f.flight_type;
+        document.getElementById('flightPriceEcoInput').value = f.price_economy;
+        document.getElementById('flightPriceBusInput').value = f.price_business;
+
+        openModal('flightFormModal');
+      };
+
+      document.getElementById('flightSaveForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('flightEditId').value;
+        const data = {
+          flight_code: document.getElementById('flightCodeInput').value.trim(),
+          airline_id: parseInt(document.getElementById('flightAirlineInput').value),
+          aircraft_type: document.getElementById('flightAircraftInput').value.trim(),
+          departure_city: document.getElementById('flightDepCityInput').value.trim(),
+          arrival_city: document.getElementById('flightArrCityInput').value.trim(),
+          departure_time: document.getElementById('flightDepTimeInput').value.replace('T', ' '),
+          arrival_time: document.getElementById('flightArrTimeInput').value.replace('T', ' '),
+          duration_minutes: 135,
+          flight_type: document.getElementById('flightTypeInput').value,
+          price_economy: parseFloat(document.getElementById('flightPriceEcoInput').value),
+          price_business: parseFloat(document.getElementById('flightPriceBusInput').value),
+          services: 'Hành lý 20kg, Suất ăn nóng'
+        };
+
+        if (id) {
+          dbUpdate('flights', id, data);
+          showToast('Cập nhật chuyến bay thành công!', 'success');
+        } else {
+          dbInsert('flights', data);
+          showToast('Tạo chuyến bay mới thành công!', 'success');
+        }
+
+        closeModal('flightFormModal');
+        renderAdminFlights(currentFlightsPage);
+      });
+    });
+  </script>
+</body>
+</html>
