@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giỏ Hàng & Thanh Toán - TravelViet</title>
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <i class="fa-solid fa-plane-departure"></i>
+          <span>TravelViet</span>
+        </a>
+        <div class="nav-links">
+          <a href="index.html"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+          <a href="flights.html"><i class="fa-solid fa-plane"></i> Chuyến Bay</a>
+          <a href="tours.html"><i class="fa-solid fa-route"></i> Tour Du Lịch</a>
+        </div>
+        <div class="header-actions">
+          <a href="cart.html" class="cart-icon-btn active" title="Giỏ hàng">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-badge">0</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
+    <h1 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 1.5rem;">Giỏ Hàng & Đặt Chỗ</h1>
+
+    <!-- Auth Requirement Warning Banner -->
+    <div id="authRequiredBanner" style="display: none; background-color: #fef3c7; border: 1px solid #f59e0b; color: #92400e; border-radius: var(--radius-md); padding: 1rem 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+      <div style="display: flex; align-items: center; gap: 0.8rem;">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.4rem;"></i>
+        <span><strong>Yêu cầu đăng nhập:</strong> Bạn cần đăng nhập tài khoản trước khi thực hiện đặt vé/tour để hệ thống lưu giữ thông tin đặt chỗ.</span>
+      </div>
+      <a href="login.html?redirect=cart.html" class="btn btn-accent btn-sm"><i class="fa-solid fa-right-to-bracket"></i> Đăng Nhập Ngay</a>
+    </div>
+
+    <div class="page-layout-2col" style="grid-template-columns: 1fr 380px;">
+      
+      <!-- Cart Items Section (Left) -->
+      <div>
+        <div class="detail-header-card" style="margin-bottom:1.5rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:1rem; margin-bottom:1rem;">
+            <h3 style="font-size:1.2rem; font-weight:700;">Danh Sách Dịch Vụ Đã Chọn</h3>
+            <button id="btnClearCartBtn" class="btn btn-sm btn-outline"><i class="fa-solid fa-trash"></i> Xóa tất cả</button>
+          </div>
+
+          <div id="cartItemsContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkout Form (Right) -->
+      <div>
+        <div class="detail-header-card">
+          <h3 style="font-size:1.2rem; font-weight:700; margin-bottom:1.2rem; border-bottom:1px solid var(--border-color); padding-bottom:0.8rem;">Thông Tin Người Đặt Chỗ</h3>
+          
+          <form id="checkoutForm">
+            <div class="form-group">
+              <label class="form-label">Họ và tên *</label>
+              <input type="text" id="custName" class="form-control" placeholder="Nguyễn Văn A" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email nhận vé/tour *</label>
+              <input type="email" id="custEmail" class="form-control" placeholder="example@email.com" required>
+              <small style="color:var(--text-muted); font-size:0.75rem;">Email xác nhận sẽ được gửi tự động từ <strong>nvhai061993@gmail.com</strong></small>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Số điện thoại *</label>
+              <input type="tel" id="custPhone" class="form-control" placeholder="0901234567" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Địa chỉ liên hệ</label>
+              <input type="text" id="custAddress" class="form-control" placeholder="Số nhà, đường, quận/huyện...">
+            </div>
+
+            <div style="border-top:1px solid var(--border-color); padding-top:1.2rem; margin-top:1.5rem;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:0.6rem; font-size:1rem;">
+                <span>Tổng tiền dịch vụ:</span>
+                <strong id="cartTotalDisplay" style="font-size:1.4rem; color:var(--accent);">0 ₫</strong>
+              </div>
+              <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1.2rem;">(Đã bao gồm đầy đủ thuế và phí dịch vụ)</p>
+
+              <button type="submit" class="btn btn-accent btn-block btn-lg" id="btnConfirmBooking">
+                <i class="fa-solid fa-circle-check"></i> Xác Nhận Đặt Chỗ
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Login Required Modal -->
+  <div class="modal-backdrop" id="loginRequiredModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color:var(--accent);"><i class="fa-solid fa-lock"></i> Yêu Cầu Đăng Nhập</h3>
+        <button class="modal-close" onclick="closeModal('loginRequiredModal')">&times;</button>
+      </div>
+      <div class="modal-body text-center" style="padding:2rem;">
+        <div style="width:70px; height:70px; background:#fef3c7; color:#92400e; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1.2rem; font-size:2rem;">
+          <i class="fa-solid fa-user-lock"></i>
+        </div>
+        <h3 style="font-weight:800; font-size:1.3rem;">Bạn Chưa Đăng Nhập!</h3>
+        <p class="mt-2" style="color:var(--text-muted);">Trước khi đặt vé hoặc tour du lịch, hệ thống yêu cầu bạn phải đăng nhập tài khoản để lưu lại thông tin đơn hàng và quản lý trong lịch sử cá nhân.</p>
+        
+        <div style="display:flex; gap:1rem; margin-top:2rem;">
+          <a href="login.html?redirect=cart.html" class="btn btn-primary btn-block btn-lg"><i class="fa-solid fa-right-to-bracket"></i> Đăng Nhập Ngay</a>
+          <a href="register.html?redirect=cart.html" class="btn btn-outline btn-block btn-lg"><i class="fa-solid fa-user-plus"></i> Đăng Ký</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Confirmation Success Modal -->
+  <div class="modal-backdrop" id="bookingSuccessModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color:#22c55e;"><i class="fa-solid fa-circle-check"></i> Đặt Chỗ Thành Công!</h3>
+        <button class="modal-close" onclick="closeModal('bookingSuccessModal')">&times;</button>
+      </div>
+      <div class="modal-body text-center" style="padding:2rem;">
+        <div style="width:70px; height:70px; background:#dcfce7; color:#166534; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 1.2rem; font-size:2rem;">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 style="font-weight:800; font-size:1.5rem;" id="modalBookingCode">TV123456</h2>
+        <p class="mt-1" style="color:var(--text-muted);">Cảm ơn bạn đã lựa chọn dịch vụ của <strong>TravelViet</strong>!</p>
+        
+        <div style="background:#f8fafc; border-radius:var(--radius-md); padding:1rem; margin:1.5rem 0; text-align:left; font-size:0.9rem;">
+          <p><strong>Người nhận:</strong> <span id="modalCustName">--</span></p>
+          <p><strong>Email:</strong> <span id="modalCustEmail">--</span></p>
+          <p><strong>Tổng tiền:</strong> <strong style="color:var(--accent);" id="modalTotalAmount">--</strong></p>
+          <hr style="border:0; border-top:1px solid var(--border-color); margin:0.6rem 0;">
+          <p style="font-size:0.82rem; color:var(--primary);"><i class="fa-solid fa-envelope"></i> Email xác nhận đơn hàng đã được gửi từ <strong>nvhai061993@gmail.com</strong> tới email của bạn.</p>
+          <p style="font-size:0.82rem; color:#166534; margin-top:0.3rem;"><i class="fa-solid fa-floppy-disk"></i> Thông tin vé & đơn hàng đã được lưu tự động vào Hồ sơ cá nhân của bạn.</p>
+        </div>
+        
+        <div style="display:flex; gap:1rem;">
+          <a href="profile.html" class="btn btn-outline btn-block"><i class="fa-solid fa-history"></i> Xem Lịch Sử Đặt Vé</a>
+          <a href="index.html" class="btn btn-primary btn-block">Về Trang Chủ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p>&copy; 2026 TravelViet. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check auth status
+      const user = getCurrentUser();
+      const authBanner = document.getElementById('authRequiredBanner');
+
+      if (user) {
+        authBanner.style.display = 'none';
+        document.getElementById('custName').value = user.full_name || user.username || '';
+        document.getElementById('custEmail').value = user.email || '';
+        document.getElementById('custPhone').value = user.phone || '';
+      } else {
+        authBanner.style.display = 'flex';
+      }
+
+      function renderCartItems() {
+        const items = getCartItems();
+        const container = document.getElementById('cartItemsContainer');
+        const totalDisplay = document.getElementById('cartTotalDisplay');
+
+        totalDisplay.textContent = formatVND(calculateCartTotal());
+
+        if (items.length === 0) {
+          container.innerHTML = `
+            <div class="text-center" style="padding: 3rem 1rem;">
+              <i class="fa-solid fa-cart-flatbed fa-3x" style="color: var(--text-muted);"></i>
+              <h4 class="mt-2" style="font-weight:700;">Giỏ hàng của bạn đang trống</h4>
+              <p style="color: var(--text-muted); font-size:0.9rem;">Hãy chọn cho mình chuyến bay hoặc tour du lịch yêu thích nhé.</p>
+              <a href="tours.html" class="btn btn-primary mt-3">Khám Phá Tour Ngay</a>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = items.map((item, idx) => `
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 0; border-bottom:1px solid var(--border-color);">
+            <div style="display:flex; align-items:center; gap:1rem;">
+              <img src="${item.image}" style="width:64px; height:64px; border-radius:var(--radius-sm); object-fit:cover;">
+              <div>
+                <span class="badge ${item.type === 'flight' ? 'badge-primary' : 'badge-warning'}">${item.type === 'flight' ? 'Vé Máy Bay' : 'Tour Du Lịch'}</span>
+                <h4 style="font-size:1rem; font-weight:700; margin-top:0.2rem;">${item.title}</h4>
+                <p style="font-size:0.82rem; color:var(--text-muted);">${item.subInfo}</p>
+              </div>
+            </div>
+
+            <div style="text-align:right;">
+              <div style="font-size:1.15rem; font-weight:800; color:var(--accent);">${formatVND(item.price * item.quantity)}</div>
+              <div style="font-size:0.8rem; color:var(--text-muted);">Số lượng: ${item.quantity}</div>
+              <button class="btn btn-sm btn-danger mt-1" onclick="handleRemoveCartItem(${idx})"><i class="fa-solid fa-trash"></i> Xóa</button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      window.handleRemoveCartItem = function(idx) {
+        removeFromCart(idx);
+        renderCartItems();
+      };
+
+      document.getElementById('btnClearCartBtn').addEventListener('click', () => {
+        clearCart();
+        renderCartItems();
+      });
+
+      // Checkout form submit handler
+      document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Enforce user login check
+        const currentUser = getCurrentUser();
+        if (!currentUser) {
+          openModal('loginRequiredModal');
+          return;
+        }
+
+        const name = document.getElementById('custName').value.trim();
+        const email = document.getElementById('custEmail').value.trim();
+        const phone = document.getElementById('custPhone').value.trim();
+        const address = document.getElementById('custAddress').value.trim();
+
+        const res = handleCheckoutBooking(name, email, phone, address);
+        if (res.success) {
+          document.getElementById('modalBookingCode').textContent = res.bookingCode;
+          document.getElementById('modalCustName').textContent = name;
+          document.getElementById('modalCustEmail').textContent = email;
+          document.getElementById('modalTotalAmount').textContent = formatVND(res.totalAmount);
+          
+          openModal('bookingSuccessModal');
+          renderCartItems();
+        } else if (res.requireLogin) {
+          openModal('loginRequiredModal');
+        } else {
+          showToast(res.message, 'error');
+        }
+      });
+
+      renderCartItems();
+    });
+  </script>
+</body>
+</html>

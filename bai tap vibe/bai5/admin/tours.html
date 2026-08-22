@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Tour - TravelViet Admin</title>
+  
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <i class="fa-solid fa-plane-departure"></i>
+        <span>TravelViet Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="dashboard.html" class="admin-nav-item"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a>
+        <a href="tours.html" class="admin-nav-item active"><i class="fa-solid fa-route"></i> <span>Quản lý Tour</span></a>
+        <a href="flights.html" class="admin-nav-item"><i class="fa-solid fa-plane"></i> <span>Quản lý Chuyến bay</span></a>
+        <a href="profile.html" class="admin-nav-item"><i class="fa-solid fa-user-gear"></i> <span>Hồ sơ Admin</span></a>
+        <a href="../index.html" class="admin-nav-item" style="margin-top:auto;"><i class="fa-solid fa-house"></i> <span>Về Trang Chủ</span></a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="admin-topbar-title">Quản Lý Tour Du Lịch</div>
+        <div class="admin-user-info">
+          <button class="btn btn-primary btn-sm" id="btnOpenAddTourModal"><i class="fa-solid fa-plus"></i> Thêm Tour Mới</button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        
+        <div class="table-card">
+          <div class="table-header">
+            <h3 style="font-size:1.1rem; font-weight:700;">Danh Sách Tour Du Lịch (Phân trang 20/trang)</h3>
+            <div class="table-actions">
+              <input type="text" id="tourSearchInput" class="form-control" placeholder="Tìm tên, mã tour, quốc gia..." style="width:240px; font-size:0.88rem;">
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Mã Tour</th>
+                  <th>Tên Tour & Ảnh</th>
+                  <th>Hành Trình</th>
+                  <th>Thời Lượng</th>
+                  <th>Giá Vé</th>
+                  <th>Đơn Vị</th>
+                  <th>Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="adminToursTableBody">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination Bar -->
+          <div class="pagination-wrapper" id="toursPagination">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Add/Edit Tour Modal -->
+  <div class="modal-backdrop" id="tourFormModal">
+    <div class="modal-dialog" style="max-width: 700px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="tourModalTitle">Thêm Tour Du Lịch Mới</h3>
+        <button class="modal-close" onclick="closeModal('tourFormModal')">&times;</button>
+      </div>
+      <form id="tourSaveForm">
+        <div class="modal-body">
+          <input type="hidden" id="tourEditId">
+          
+          <div style="display:grid; grid-template-columns: 1fr 2fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Mã Tour *</label>
+              <input type="text" id="tourCodeInput" class="form-control" placeholder="TOUR999" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tên Tour *</label>
+              <input type="text" id="tourTitleInput" class="form-control" placeholder="Khám phá Thụy Sĩ 6N5Đ..." required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Quốc gia *</label>
+              <input type="text" id="tourCountryInput" class="form-control" placeholder="Việt Nam" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Điểm đi *</label>
+              <input type="text" id="tourDepInput" class="form-control" placeholder="TP.HCM" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Điểm đến *</label>
+              <input type="text" id="tourDestInput" class="form-control" placeholder="Hạ Long" required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Số ngày *</label>
+              <input type="number" id="tourDaysInput" class="form-control" value="4" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Số đêm *</label>
+              <input type="number" id="tourNightsInput" class="form-control" value="3" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giá niêm yết (VNĐ) *</label>
+              <input type="number" id="tourPriceInput" class="form-control" value="5000000" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Hãng lữ hành *</label>
+              <input type="text" id="tourAgencyInput" class="form-control" value="TravelViet" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Link ảnh Thumbnail (600x400)</label>
+            <input type="text" id="tourImgInput" class="form-control" value="https://images.unsplash.com/photo-1528127269322-539801943592?w=600&auto=format&fit=crop&q=80">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('tourFormModal')">Hủy</button>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Lưu Tour</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/db.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/admin.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!requireAdminGuard()) return;
+
+      renderAdminTours(1);
+
+      document.getElementById('tourSearchInput').addEventListener('input', (e) => {
+        renderAdminTours(1, e.target.value.trim());
+      });
+
+      document.getElementById('btnOpenAddTourModal').addEventListener('click', () => {
+        document.getElementById('tourModalTitle').textContent = 'Thêm Tour Du Lịch Mới';
+        document.getElementById('tourEditId').value = '';
+        document.getElementById('tourCodeInput').value = 'TOUR' + Math.floor(100 + Math.random() * 900);
+        document.getElementById('tourTitleInput').value = '';
+        document.getElementById('tourCountryInput').value = 'Việt Nam';
+        document.getElementById('tourDepInput').value = 'TP.HCM';
+        document.getElementById('tourDestInput').value = 'Đà Nẵng';
+        document.getElementById('tourPriceInput').value = 5900000;
+        openModal('tourFormModal');
+      });
+
+      window.editTour = function(id) {
+        const tours = dbQuery(`SELECT * FROM tours WHERE id = ?`, [id]);
+        if (tours.length === 0) return;
+        const t = tours[0];
+
+        document.getElementById('tourModalTitle').textContent = 'Sửa Thông Tin Tour';
+        document.getElementById('tourEditId').value = t.id;
+        document.getElementById('tourCodeInput').value = t.tour_code;
+        document.getElementById('tourTitleInput').value = t.title;
+        document.getElementById('tourCountryInput').value = t.country;
+        document.getElementById('tourDepInput').value = t.departure_city;
+        document.getElementById('tourDestInput').value = t.destination_city;
+        document.getElementById('tourDaysInput').value = t.duration_days;
+        document.getElementById('tourNightsInput').value = t.duration_nights;
+        document.getElementById('tourPriceInput').value = t.price;
+        document.getElementById('tourAgencyInput').value = t.travel_agency;
+        document.getElementById('tourImgInput').value = t.thumbnail_url;
+
+        openModal('tourFormModal');
+      };
+
+      document.getElementById('tourSaveForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('tourEditId').value;
+        const data = {
+          tour_code: document.getElementById('tourCodeInput').value.trim(),
+          title: document.getElementById('tourTitleInput').value.trim(),
+          country: document.getElementById('tourCountryInput').value.trim(),
+          departure_city: document.getElementById('tourDepInput').value.trim(),
+          destination_city: document.getElementById('tourDestInput').value.trim(),
+          duration_days: parseInt(document.getElementById('tourDaysInput').value),
+          duration_nights: parseInt(document.getElementById('tourNightsInput').value),
+          price: parseFloat(document.getElementById('tourPriceInput').value),
+          travel_agency: document.getElementById('tourAgencyInput').value.trim(),
+          thumbnail_url: document.getElementById('tourImgInput').value.trim(),
+          departure_date: '2026-09-15'
+        };
+
+        if (id) {
+          dbUpdate('tours', id, data);
+          showToast('Cập nhật Tour thành công!', 'success');
+        } else {
+          dbInsert('tours', data);
+          showToast('Thêm Tour mới thành công!', 'success');
+        }
+
+        closeModal('tourFormModal');
+        renderAdminTours(currentToursPage);
+      });
+    });
+  </script>
+</body>
+</html>

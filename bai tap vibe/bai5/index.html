@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelViet - Nền Tảng Đặt Vé Máy Bay & Tour Du Lịch Trực Tuyến</title>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <!-- Font Awesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- sql.js WASM CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+
+  <!-- Site Header / Navbar -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <i class="fa-solid fa-plane-departure"></i>
+          <span>TravelViet</span>
+        </a>
+        <div class="nav-links">
+          <a href="index.html" class="active"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+          <a href="flights.html"><i class="fa-solid fa-plane"></i> Chuyến Bay</a>
+          <a href="tours.html"><i class="fa-solid fa-route"></i> Tour Du Lịch</a>
+          <a href="#partners"><i class="fa-solid fa-handshake"></i> Đối Tác</a>
+        </div>
+        <div class="header-actions">
+          <a href="cart.html" class="cart-icon-btn" title="Giỏ hàng">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-badge">0</span>
+          </a>
+          <!-- Dynamic Auth Container injected by js/main.js -->
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero & Search Box Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h1 class="hero-title">Khám Phá Thế Giới Cùng TravelViet</h1>
+      <p class="hero-subtitle">Đặt vé máy bay & tour du lịch giá tốt nhất chỉ với vài cú nhấp chuột</p>
+      
+      <div class="search-box-card">
+        <div class="search-tabs">
+          <button class="search-tab-btn active" id="tabFlightBtn">
+            <i class="fa-solid fa-plane"></i> Vé Máy Bay
+          </button>
+          <button class="search-tab-btn" id="tabTourBtn">
+            <i class="fa-solid fa-compass"></i> Tour Du Lịch
+          </button>
+        </div>
+
+        <!-- Flight Search Form -->
+        <form id="flightSearchForm" action="flights.html" method="GET">
+          <div class="trip-type-toggle">
+            <label><input type="radio" name="tripType" value="roundtrip" checked> Vé Khứ Hồi</label>
+            <label><input type="radio" name="tripType" value="oneway"> Vé Một Chiều</label>
+          </div>
+          <div class="search-form-grid">
+            <div class="form-group mb-0">
+              <label class="form-label"><i class="fa-solid fa-location-dot"></i> Điểm xuất phát</label>
+              <select name="origin" class="form-control" required>
+                <option value="TP.HCM (SGN)">TP.HCM (SGN)</option>
+                <option value="Hà Nội (HAN)">Hà Nội (HAN)</option>
+                <option value="Đà Nẵng (DAD)">Đà Nẵng (DAD)</option>
+                <option value="Phú Quốc (PQC)">Phú Quốc (PQC)</option>
+              </select>
+            </div>
+            <div class="form-group mb-0">
+              <label class="form-label"><i class="fa-solid fa-location-arrow"></i> Điểm đến</label>
+              <select name="destination" class="form-control" required>
+                <option value="Hà Nội (HAN)">Hà Nội (HAN)</option>
+                <option value="Đà Nẵng (DAD)">Đà Nẵng (DAD)</option>
+                <option value="Phú Quốc (PQC)">Phú Quốc (PQC)</option>
+                <option value="Singapore (SIN)">Singapore (SIN)</option>
+                <option value="Bangkok (BKK)">Bangkok (BKK)</option>
+                <option value="Tokyo (NRT)">Tokyo (NRT)</option>
+              </select>
+            </div>
+            <div class="form-group mb-0">
+              <label class="form-label"><i class="fa-solid fa-calendar"></i> Ngày đi</label>
+              <input type="date" name="depDate" class="form-control" value="2026-09-01" required>
+            </div>
+            <div class="form-group mb-0" id="returnDateBox">
+              <label class="form-label"><i class="fa-solid fa-calendar-check"></i> Ngày về</label>
+              <input type="date" name="returnDate" class="form-control" value="2026-09-05">
+            </div>
+            <div class="form-group mb-0">
+              <label class="form-label"><i class="fa-solid fa-users"></i> Số lượng khách</label>
+              <input type="number" name="passengers" class="form-control" min="1" max="10" value="1">
+            </div>
+            <div>
+              <button type="submit" class="btn btn-accent btn-block" style="height: 42px;">
+                <i class="fa-solid fa-magnifying-glass"></i> Tìm Kiếm
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Tour Search Form (Initially Hidden) -->
+        <form id="tourSearchForm" action="tours.html" method="GET" style="display: none;">
+          <div class="search-form-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div class="form-group mb-0">
+              <label class="form-label"><i class="fa-solid fa-earth-americas"></i> Quốc gia / Điểm đến</label>
+              <select name="destination" class="form-control">
+                <option value="">Tất cả điểm đến</option>
+                <option value="Việt Nam">Việt Nam</option>
+                <option value="Thái Lan">Thái Lan</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Nhật Bản">Nhật Bản</option>
+                <option value="Hàn Quốc">Hàn Quốc</option>
+              </select>
+            </div>
+            <div class="form-group mb-0">
+              <label class="form-label"><i class="fa-solid fa-calendar"></i> Khởi hành tháng</label>
+              <input type="date" name="depDate" class="form-control" value="2026-09-10">
+            </div>
+            <div class="form-group mb-0">
+              <label class="form-label"><i class="fa-solid fa-clock"></i> Thời lượng tour</label>
+              <select name="duration" class="form-control">
+                <option value="">Tất cả thời lượng</option>
+                <option value="3-4">3 - 4 Ngày</option>
+                <option value="5-7">5 - 7 Ngày</option>
+              </select>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-accent btn-block" style="height: 42px;">
+                <i class="fa-solid fa-magnifying-glass"></i> Tìm Tour
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured 8 Tours Section -->
+  <section class="container" style="margin-top: 6rem; margin-bottom: 4rem;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
+      <div>
+        <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-main);">Tour Du Lịch Nổi Bật</h2>
+        <p style="color: var(--text-muted);">Những hành trình được yêu thích nhất do du khách bình chọn</p>
+      </div>
+      <a href="tours.html" class="btn btn-outline">Xem Tất Cả Tour <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
+    <!-- Grid Container for 8 Featured Tours -->
+    <div class="card-grid" id="featuredToursGrid">
+      <div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: var(--text-muted);">
+        <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+        <p class="mt-2">Đang tải danh sách Tour nổi bật...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partner Airlines Section -->
+  <section class="partner-airlines-section" id="partners" style="background-color: #ffffff; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <h2 style="font-size: 1.8rem; font-weight: 800;">Đối Tác Hàng Không Hàng Đầu</h2>
+      <p style="color: var(--text-muted); max-width: 600px; margin: 0.5rem auto 0;">Đồng hành cùng những hãng hàng không uy tín nhất Việt Nam và thế giới</p>
+      
+      <div class="partner-logos-grid" id="partnerLogosGrid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="logo" style="color: #ffffff; margin-bottom: 1rem;">
+            <i class="fa-solid fa-plane-departure" style="color: var(--accent);"></i> TravelViet
+          </a>
+          <p>Nền tảng dịch vụ du lịch & đặt vé máy bay trực tuyến uy tín số 1 Việt Nam.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Về TravelViet</h4>
+          <ul>
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Đối tác lữ hành</a></li>
+            <li><a href="#">Tuyển dụng</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Dịch Vụ</h4>
+          <ul>
+            <li><a href="flights.html">Vé máy bay nội địa</a></li>
+            <li><a href="flights.html">Vé máy bay quốc tế</a></li>
+            <li><a href="tours.html">Tour du lịch trọn gói</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Liên Hệ</h4>
+          <p><i class="fa-solid fa-envelope"></i> Email: nvhai061993@gmail.com</p>
+          <p><i class="fa-solid fa-phone"></i> Hotline: 1900 1234</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 TravelViet. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Core Scripts -->
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Page Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Tab Switching (Flight vs Tour)
+      const tabFlightBtn = document.getElementById('tabFlightBtn');
+      const tabTourBtn = document.getElementById('tabTourBtn');
+      const flightSearchForm = document.getElementById('flightSearchForm');
+      const tourSearchForm = document.getElementById('tourSearchForm');
+
+      tabFlightBtn.addEventListener('click', () => {
+        tabFlightBtn.classList.add('active');
+        tabTourBtn.classList.remove('active');
+        flightSearchForm.style.display = 'block';
+        tourSearchForm.style.display = 'none';
+      });
+
+      tabTourBtn.addEventListener('click', () => {
+        tabTourBtn.classList.add('active');
+        tabFlightBtn.classList.remove('active');
+        tourSearchForm.style.display = 'block';
+        flightSearchForm.style.display = 'none';
+      });
+
+      // Trip Type Radio Toggle (Roundtrip vs Oneway)
+      const tripTypeRadios = document.getElementsByName('tripType');
+      const returnDateBox = document.getElementById('returnDateBox');
+      tripTypeRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          if (e.target.value === 'oneway') {
+            returnDateBox.style.opacity = '0.4';
+            returnDateBox.querySelector('input').disabled = true;
+          } else {
+            returnDateBox.style.opacity = '1';
+            returnDateBox.querySelector('input').disabled = false;
+          }
+        });
+      });
+
+      // Load Featured 8 Tours & Partner Airlines from SQLite
+      function loadHomepageData() {
+        if (!db) {
+          setTimeout(loadHomepageData, 200);
+          return;
+        }
+
+        // Render 8 Featured Tours
+        const featuredTours = dbQuery(`SELECT * FROM tours WHERE featured = 1 LIMIT 8`);
+        const grid = document.getElementById('featuredToursGrid');
+        if (grid && featuredTours.length > 0) {
+          grid.innerHTML = featuredTours.map(t => `
+            <div class="tour-card">
+              <div class="tour-card-img">
+                <img src="${t.thumbnail_url}" alt="${t.title}">
+                <span class="tour-badge-country">${t.country}</span>
+              </div>
+              <div class="tour-card-body">
+                <div class="tour-agency">${t.travel_agency}</div>
+                <h3 class="tour-title">${t.title}</h3>
+                <div class="tour-meta">
+                  <span><i class="fa-solid fa-clock"></i> ${t.duration_days}N${t.duration_nights}Đ</span>
+                  <span><i class="fa-solid fa-star" style="color:var(--accent);"></i> ${t.rating}</span>
+                </div>
+                <div class="tour-price-box">
+                  <div>
+                    <div class="tour-price">${formatVND(t.price)}</div>
+                    <div class="tour-price-sub">Trọn gói / Khách</div>
+                  </div>
+                  <a href="tour-detail.html?id=${t.id}" class="btn btn-primary btn-sm">Xem Chi Tiết</a>
+                </div>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        // Render Partner Airlines
+        const airlines = dbQuery(`SELECT * FROM airlines LIMIT 8`);
+        const partnerGrid = document.getElementById('partnerLogosGrid');
+        if (partnerGrid && airlines.length > 0) {
+          partnerGrid.innerHTML = airlines.map(a => `
+            <div class="partner-logo-item" onclick="window.location.href='flights.html?airline=${encodeURIComponent(a.code)}'">
+              <img src="${a.logo_url}" alt="${a.name}">
+              <span>${a.name}</span>
+            </div>
+          `).join('');
+        }
+      }
+
+      loadHomepageData();
+    });
+  </script>
+</body>
+</html>

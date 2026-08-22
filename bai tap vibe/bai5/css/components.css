@@ -1,0 +1,497 @@
+/* ==========================================================================
+   TravelViet - Component Specific CSS
+   ========================================================================== */
+
+/* Hero Search Component */
+.hero-section {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.9) 0%, rgba(3, 105, 161, 0.95) 100%),
+              url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1920&q=80') center/cover;
+  padding: 4rem 0 6rem;
+  color: #ffffff;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  margin-bottom: -3rem;
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 0.8rem;
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+}
+
+.search-box-card {
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 1.8rem;
+  color: var(--text-main);
+}
+
+.search-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.8rem;
+}
+
+.search-tab-btn {
+  background: none;
+  border: none;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  position: relative;
+  transition: var(--transition);
+}
+
+.search-tab-btn.active {
+  color: var(--primary);
+}
+
+.search-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.9rem;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
+}
+
+.trip-type-toggle {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.trip-type-toggle label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.search-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+/* Tour & Flight Cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.8rem;
+}
+
+.tour-card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+}
+
+.tour-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.tour-card-img {
+  position: relative;
+  width: 100%;
+  height: 220px; /* Standard ratio around 600x400 */
+  overflow: hidden;
+}
+
+.tour-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.tour-card:hover .tour-card-img img {
+  transform: scale(1.05);
+}
+
+.tour-badge-country {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.tour-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.tour-agency {
+  font-size: 0.82rem;
+  color: var(--primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.tour-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 0.8rem;
+  color: var(--text-main);
+}
+
+.tour-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 1.2rem;
+}
+
+.tour-price-box {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tour-price {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.tour-price-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Flight List Cards */
+.flight-card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 1.4rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.flight-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+
+.flight-airline {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-width: 180px;
+}
+
+.flight-airline img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+.airline-info h5 {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.airline-info p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.flight-timeline {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.flight-time-box {
+  text-align: center;
+}
+
+.flight-time-box h4 {
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.flight-time-box p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.flight-duration-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 140px;
+}
+
+.flight-duration-line {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background-color: var(--border-color);
+  margin: 0.4rem 0;
+}
+
+.flight-duration-line i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg-card);
+  padding: 0 0.4rem;
+  color: var(--primary);
+  font-size: 0.9rem;
+}
+
+.flight-price-action {
+  text-align: right;
+  min-width: 160px;
+}
+
+.flight-price {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* 2-Column Sidebar Layout */
+.page-layout-2col {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.filter-sidebar {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  height: fit-content;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filter-group {
+  margin-bottom: 1.5rem;
+}
+
+.filter-group-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: var(--text-main);
+}
+
+.filter-options label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  color: var(--text-main);
+}
+
+/* Detail Pages (Flight & Tour) */
+.detail-header-card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+}
+
+.fare-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.fare-card {
+  background-color: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  transition: var(--transition);
+  position: relative;
+  cursor: pointer;
+}
+
+.fare-card:hover, .fare-card.selected {
+  border-color: var(--primary);
+  background-color: var(--primary-light);
+}
+
+.fare-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.fare-price {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.fare-benefits li {
+  font-size: 0.88rem;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.fare-benefits li i {
+  color: #22c55e;
+}
+
+/* Itinerary Timeline Accordion */
+.itinerary-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.accordion-item {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.accordion-header {
+  padding: 1rem 1.4rem;
+  background-color: #f8fafc;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accordion-content {
+  padding: 1.2rem 1.4rem;
+  display: none;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.accordion-item.active .accordion-content {
+  display: block;
+}
+
+/* Partner Airlines Grid */
+.partner-airlines-section {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.partner-logos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.partner-logo-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.partner-logo-item:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+.partner-logo-item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.partner-logo-item span {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+@media (max-width: 992px) {
+  .page-layout-2col {
+    grid-template-columns: 1fr;
+  }
+}

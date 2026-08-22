@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi Tiết Tour Du Lịch - TravelViet</title>
+  
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <i class="fa-solid fa-plane-departure"></i>
+          <span>TravelViet</span>
+        </a>
+        <div class="nav-links">
+          <a href="index.html"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+          <a href="flights.html"><i class="fa-solid fa-plane"></i> Chuyến Bay</a>
+          <a href="tours.html" class="active"><i class="fa-solid fa-route"></i> Tour Du Lịch</a>
+        </div>
+        <div class="header-actions">
+          <a href="cart.html" class="cart-icon-btn" title="Giỏ hàng">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-badge">0</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Tour Detail Content -->
+  <main class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
+    <div id="tourDetailContainer">
+      <div class="text-center" style="padding: 4rem;">
+        <i class="fa-solid fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i>
+        <p class="mt-2">Đang tải thông tin tour du lịch...</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p>&copy; 2026 TravelViet. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tourId = urlParams.get('id');
+
+      function loadTourDetail() {
+        if (!db) {
+          setTimeout(loadTourDetail, 200);
+          return;
+        }
+
+        if (!tourId) {
+          document.getElementById('tourDetailContainer').innerHTML = `
+            <div class="text-center" style="padding:4rem;">
+              <h2>Không tìm thấy Tour du lịch</h2>
+              <a href="tours.html" class="btn btn-primary mt-3">Quay lại danh sách</a>
+            </div>
+          `;
+          return;
+        }
+
+        const tours = dbQuery(`
+          SELECT t.*, a.name as airline_name, a.logo_url as airline_logo
+          FROM tours t
+          LEFT JOIN airlines a ON t.airline_id = a.id
+          WHERE t.id = ?
+        `, [tourId]);
+
+        if (tours.length === 0) {
+          document.getElementById('tourDetailContainer').innerHTML = `
+            <div class="text-center" style="padding:4rem;">
+              <h2>Tour du lịch không tồn tại</h2>
+              <a href="tours.html" class="btn btn-primary mt-3">Quay lại danh sách</a>
+            </div>
+          `;
+          return;
+        }
+
+        const tour = tours[0];
+        renderTourDetail(tour);
+      }
+
+      function renderTourDetail(t) {
+        const container = document.getElementById('tourDetailContainer');
+        
+        let itineraryItems = [];
+        try {
+          itineraryItems = JSON.parse(t.itinerary || '[]');
+        } catch (e) {
+          itineraryItems = [];
+        }
+
+        container.innerHTML = `
+          <div class="detail-header-card">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem;">
+              <div>
+                <img src="${t.thumbnail_url}" alt="${t.title}" style="width:100%; height:360px; object-fit:cover; border-radius:var(--radius-md);">
+              </div>
+              <div style="display:flex; flex-direction:column; justify-content:space-between;">
+                <div>
+                  <span class="badge badge-primary mb-2">${t.country}</span>
+                  <span class="badge badge-secondary mb-2">${t.travel_agency}</span>
+                  <h1 style="font-size:1.8rem; font-weight:800; line-height:1.3; margin-bottom:1rem;">${t.title}</h1>
+                  
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem; background:#f8fafc; padding:1rem; border-radius:var(--radius-sm);">
+                    <div><i class="fa-solid fa-clock" style="color:var(--primary);"></i> Thời lượng: <strong>${t.duration_days}N${t.duration_nights}Đ</strong></div>
+                    <div><i class="fa-solid fa-plane" style="color:var(--primary);"></i> Hãng bay: <strong>${t.airline_name || 'Hàng không cao cấp'}</strong></div>
+                    <div><i class="fa-solid fa-location-dot" style="color:var(--primary);"></i> Khởi hành: <strong>${t.departure_city}</strong></div>
+                    <div><i class="fa-solid fa-hotel" style="color:var(--primary);"></i> Khách sạn: <strong>4 - 5 Sao</strong></div>
+                  </div>
+                </div>
+
+                <div style="border-top:1px solid var(--border-color); padding-top:1rem; display:flex; align-items:center; justify-content:space-between;">
+                  <div>
+                    <span style="font-size:0.88rem; color:var(--text-muted);">Giá trọn gói / khách</span>
+                    <div style="font-size:2rem; font-weight:800; color:var(--accent);">${formatVND(t.price)}</div>
+                  </div>
+                  <button id="btnBookTourNow" class="btn btn-accent btn-lg">
+                    <i class="fa-solid fa-suitcase-rolling"></i> Đặt Tour Này Ngay
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Services Included -->
+          <div class="detail-header-card">
+            <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:1rem;"><i class="fa-solid fa-circle-check" style="color:#22c55e;"></i> Dịch Vụ Bao Gồm Trong Tour</h3>
+            <p style="color:var(--text-main); font-size:0.95rem; line-height:1.7;">
+              ${t.services || 'Vé máy bay khứ hồi theo chương trình, Khách sạn tiêu chuẩn 4-5 sao (2 khách/phòng), Các bữa ăn theo chương trình, Xe du lịch máy lạnh hiện đại đưa đón tham quan, Vé vào cổng các điểm du lịch, Hướng dẫn viên tiếng Việt nhiệt tình suốt tuyến, Bảo hiểm du lịch quốc tế tối đa 1.000.000.000 VNĐ/trường hợp.'}
+            </p>
+          </div>
+
+          <!-- Itinerary Timeline Accordion -->
+          <div class="detail-header-card">
+            <h3 style="font-size:1.3rem; font-weight:800; margin-bottom:1.5rem;"><i class="fa-solid fa-calendar-days" style="color:var(--primary);"></i> Lịch Trình Chuyến Đi Chi Tiết</h3>
+            
+            <div class="itinerary-accordion" id="itineraryAccordion">
+              ${itineraryItems.map((item, idx) => `
+                <div class="accordion-item ${idx === 0 ? 'active' : ''}">
+                  <div class="accordion-header">
+                    <span><i class="fa-solid fa-location-pin" style="color:var(--accent);"></i> ${item.title}</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                  </div>
+                  <div class="accordion-content">
+                    <p>${item.detail}</p>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+
+        // Accordion click handlers
+        const accordionItems = container.querySelectorAll('.accordion-item');
+        accordionItems.forEach(item => {
+          const header = item.querySelector('.accordion-header');
+          header.addEventListener('click', () => {
+            item.classList.toggle('active');
+          });
+        });
+
+        // Book Tour Handler
+        document.getElementById('btnBookTourNow').addEventListener('click', () => {
+          addToCart({
+            id: t.id,
+            type: 'tour',
+            title: t.title,
+            code: t.tour_code,
+            subInfo: `${t.duration_days} Ngày ${t.duration_nights} Đêm | ${t.country}`,
+            class: 'Tour trọn gói',
+            price: t.price,
+            quantity: 1,
+            image: t.thumbnail_url
+          });
+          window.location.href = 'cart.html';
+        });
+      }
+
+      loadTourDetail();
+    });
+  </script>
+</body>
+</html>

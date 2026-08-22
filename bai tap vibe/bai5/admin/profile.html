@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ Sơ Admin - TravelViet Admin</title>
+  
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+</head>
+<body>
+
+  <div class="admin-wrapper">
+    
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <i class="fa-solid fa-plane-departure"></i>
+        <span>TravelViet Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="dashboard.html" class="admin-nav-item"><i class="fa-solid fa-gauge"></i> <span>Dashboard</span></a>
+        <a href="tours.html" class="admin-nav-item"><i class="fa-solid fa-route"></i> <span>Quản lý Tour</span></a>
+        <a href="flights.html" class="admin-nav-item"><i class="fa-solid fa-plane"></i> <span>Quản lý Chuyến bay</span></a>
+        <a href="profile.html" class="admin-nav-item active"><i class="fa-solid fa-user-gear"></i> <span>Hồ sơ Admin</span></a>
+        <a href="../index.html" class="admin-nav-item" style="margin-top:auto;"><i class="fa-solid fa-house"></i> <span>Về Trang Chủ</span></a>
+      </nav>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="admin-topbar-title">Thông Tin Cá Nhân Admin</div>
+      </header>
+
+      <div class="admin-content">
+        
+        <div style="max-width: 650px; margin: 0 auto;">
+          <div class="chart-card text-center" style="margin-bottom: 2rem;">
+            <img id="adminProfAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" style="width:110px; height:110px; border-radius:50%; object-fit:cover; margin:0 auto 1rem; border:4px solid var(--primary);">
+            <h2 id="adminProfName" style="font-size:1.4rem; font-weight:800;">Quản Trị Viên</h2>
+            <p style="color:var(--text-muted); font-size:0.88rem;">Role: Administrator</p>
+          </div>
+
+          <div class="chart-card">
+            <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:1.5rem; padding-bottom:0.6rem; border-bottom:1px solid var(--border-color);">Cập Nhật Hồ Sơ Admin</h3>
+            
+            <form id="adminProfileForm">
+              <div class="form-group">
+                <label class="form-label">Tên đăng nhập (Username)</label>
+                <input type="text" id="admUsername" class="form-control" readonly style="background:#f1f5f9;">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Email Admin</label>
+                <input type="email" id="admEmail" class="form-control" value="admin@travel.com" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Họ và tên Quản trị viên</label>
+                <input type="text" id="admFullName" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Số điện thoại liên hệ</label>
+                <input type="tel" id="admPhone" class="form-control">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Mật khẩu mới (Bỏ trống nếu không đổi)</label>
+                <input type="password" id="admNewPassword" class="form-control" placeholder="••••••••">
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block mt-3"><i class="fa-solid fa-floppy-disk"></i> Lưu Hồ Sơ Admin</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="../js/db.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/cart.js"></script>
+  <script src="../js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!requireAdminGuard()) return;
+
+      const user = getCurrentUser();
+
+      function loadAdminProfile() {
+        if (!user) return;
+        document.getElementById('adminProfAvatar').src = user.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80';
+        document.getElementById('adminProfName').textContent = user.full_name || 'Quản Trị Viên';
+        document.getElementById('admUsername').value = user.username || 'admin';
+        document.getElementById('admEmail').value = user.email || 'admin@travel.com';
+        document.getElementById('admFullName').value = user.full_name || 'TravelViet Administrator';
+        document.getElementById('admPhone').value = user.phone || '0901234567';
+      }
+
+      document.getElementById('adminProfileForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newEmail = document.getElementById('admEmail').value.trim();
+        const newName = document.getElementById('admFullName').value.trim();
+        const newPhone = document.getElementById('admPhone').value.trim();
+        const newPass = document.getElementById('admNewPassword').value.trim();
+
+        const updateData = {
+          email: newEmail,
+          full_name: newName,
+          phone: newPhone
+        };
+        if (newPass) updateData.password = newPass;
+
+        dbUpdate('users', user.id, updateData);
+        
+        user.email = newEmail;
+        user.full_name = newName;
+        user.phone = newPhone;
+        if (newPass) user.password = newPass;
+        setActiveUserSession(user);
+
+        showToast('Cập nhật hồ sơ Admin thành công!', 'success');
+        loadAdminProfile();
+      });
+
+      loadAdminProfile();
+    });
+  </script>
+</body>
+</html>
